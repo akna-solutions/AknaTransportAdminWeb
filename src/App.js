@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-const pages = require.context("./pages", true, /index\.tsx$/);
+const pages = require.context("./pages", true, /index\.js$/);
 
 function App() {
   return (
@@ -11,7 +11,7 @@ function App() {
 
           const routePath = key
             .replace("./", "")
-            .replace("/index.tsx", "")
+            .replace("/index.js", "")
             .toLowerCase();
 
           return (

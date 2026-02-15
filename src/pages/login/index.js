@@ -1,46 +1,15 @@
-import React, { useState } from "react";
+import { Button, Input, Card } from "antd";
 
 const Login = () => {
-  const [email, setEmail] = useState < string > "";
-  const [password, setPassword] = useState < string > "";
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    if (!email || !password) {
-      alert("Email ve şifre zorunlu.");
-      return;
-    }
-
-    console.log("Login request:", { email, password });
-    // TODO: API call buraya gelecek
-  };
-
   return (
-    <div style={styles.container}>
-      <form onSubmit={handleSubmit} style={styles.card}>
-        <h2>Giriş Yap</h2>
-
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          style={styles.input}
-        />
-
-        <input
-          type="password"
-          placeholder="Şifre"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          style={styles.input}
-        />
-
-        <button type="submit" style={styles.button}>
+    <div style={{ display: "flex", justifyContent: "center", marginTop: 100 }}>
+      <Card title="Giriş Yap" style={{ width: 300 }}>
+        <Input placeholder="Email" style={{ marginBottom: 10 }} />
+        <Input.Password placeholder="Şifre" style={{ marginBottom: 10 }} />
+        <Button type="primary" block>
           Giriş Yap
-        </button>
-      </form>
+        </Button>
+      </Card>
     </div>
   );
 };
