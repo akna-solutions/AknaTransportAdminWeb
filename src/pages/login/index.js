@@ -1,15 +1,23 @@
-import { Button, Input, Card } from "antd";
+import { Row, Col } from "antd";
+import WelcomeSection from "./components/WelcomeSection";
+import LoginForm from "./components/LoginForm";
 
 const Login = () => {
   return (
-    <div style={{ display: "flex", justifyContent: "center", marginTop: 100 }}>
-      <Card title="Giriş Yap" style={{ width: 300 }}>
-        <Input placeholder="Email" style={{ marginBottom: 10 }} />
-        <Input.Password placeholder="Şifre" style={{ marginBottom: 10 }} />
-        <Button type="primary" block>
-          Giriş Yap
-        </Button>
-      </Card>
+    <div
+      style={{
+        minHeight: "100vh",
+        background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+      }}
+    >
+      <Row style={{ minHeight: "100vh" }}>
+        <Col xs={0} md={12} lg={14}>
+          <WelcomeSection />
+        </Col>
+        <Col xs={24} md={12} lg={10}>
+          <LoginForm />
+        </Col>
+      </Row>
     </div>
   );
 };
