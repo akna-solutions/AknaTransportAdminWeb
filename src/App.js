@@ -1,24 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+const pages = require.context("./pages", true, /index\.tsx$/);
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        {pages.keys().map((key) => {
+          const Component = pages(key).default;
+
+          const routePath = key
+            .replace("./", "")
+            .replace("/index.tsx", "")
+            .toLowerCase();
+
+          return (
+            <Route
+              key={routePath}
+              path={routePath === "home" ? "/" : `/${routePath}`}
+              element={<Component />}
+            />
+          );
+        })}
+      </Routes>
+    </BrowserRouter>
   );
 }
 
