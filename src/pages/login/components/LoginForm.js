@@ -14,6 +14,7 @@ import {
   EyeInvisibleOutlined,
   EyeTwoTone,
 } from "@ant-design/icons";
+import { useNavigate, useLocation } from "react-router-dom";
 import { loginUser } from "../services/loginService";
 
 const { Title, Text, Link } = Typography;
@@ -21,6 +22,8 @@ const { Title, Text, Link } = Typography;
 const LoginForm = () => {
   const [loading, setLoading] = useState(false);
   const [form] = Form.useForm();
+
+  const navigate = useNavigate();
 
   const handleSubmit = async (values) => {
     try {
@@ -47,9 +50,7 @@ const LoginForm = () => {
             userType: response.userType,
           })
         );
-
-        // Yönlendirme yapılabilir
-        // navigate('/dashboard');
+        navigate("/dashboard");
       } else {
         message.error(response.resultMessage || "Giriş başarısız!");
       }
