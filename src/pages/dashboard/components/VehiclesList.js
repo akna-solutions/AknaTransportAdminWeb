@@ -19,7 +19,7 @@ import {
   CarOutlined,
   EnvironmentOutlined,
 } from "@ant-design/icons";
-import { dashboardService } from "../services/dashboardService";
+import { services } from "../../../common/services";
 
 const { confirm } = Modal;
 
@@ -39,7 +39,7 @@ const VehiclesList = () => {
   const fetchVehicles = async (page = 1, pageSize = 5, filters = {}) => {
     try {
       setLoading(true);
-      const response = await dashboardService.getVehiclesList({
+      const response = await services.getVehiclesList({
         page,
         pageSize,
         ...filters,
@@ -70,7 +70,7 @@ const VehiclesList = () => {
       cancelText: "Cancel",
       onOk: async () => {
         try {
-          await dashboardService.deleteVehicle(vehicleId);
+          await services.deleteVehicle(vehicleId);
           message.success("Vehicle deleted successfully");
           fetchVehicles(pagination.current, pagination.pageSize);
         } catch (error) {
@@ -211,7 +211,7 @@ const VehiclesList = () => {
             })),
             onClick: ({ key }) => {
               const action = getActionItems(record).find(
-                (item) => item.key === key
+                (item) => item.key === key,
               );
               if (action && action.onClick) {
                 action.onClick();

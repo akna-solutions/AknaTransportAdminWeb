@@ -22,7 +22,7 @@ import {
   CheckCircleOutlined,
   CloseCircleOutlined,
 } from "@ant-design/icons";
-import { dashboardService } from "../services/dashboardService";
+import { services } from "../../../common/services";
 
 const { confirm } = Modal;
 
@@ -95,7 +95,7 @@ const UsersList = () => {
       }));
 
       // Uncomment below to use actual API
-      // const response = await dashboardService.getUsersList({
+      // const response = await services.getUsersList({
       //   page,
       //   pageSize,
       //   ...filters
@@ -125,7 +125,7 @@ const UsersList = () => {
       cancelText: "Cancel",
       onOk: async () => {
         try {
-          await dashboardService.deleteUser(userId);
+          await services.deleteUser(userId);
           message.success("User deleted successfully");
           fetchUsers(pagination.current, pagination.pageSize);
         } catch (error) {
@@ -294,7 +294,7 @@ const UsersList = () => {
             })),
             onClick: ({ key }) => {
               const action = getActionItems(record).find(
-                (item) => item.key === key
+                (item) => item.key === key,
               );
               if (action && action.onClick) {
                 action.onClick();

@@ -15,7 +15,7 @@ import {
   EyeTwoTone,
 } from "@ant-design/icons";
 import { useNavigate, useLocation } from "react-router-dom";
-import { loginUser } from "../services/loginService";
+import { services } from "../../../common/services";
 
 const { Title, Text, Link } = Typography;
 
@@ -28,7 +28,7 @@ const LoginForm = () => {
   const handleSubmit = async (values) => {
     try {
       setLoading(true);
-      const response = await loginUser({
+      const response = await services({
         userCode: values.email,
         password: values.password,
         rememberMe: values.remember || false,
@@ -48,7 +48,7 @@ const LoginForm = () => {
             name: response.name,
             surname: response.surname,
             userType: response.userType,
-          })
+          }),
         );
         navigate("/dashboard");
       } else {

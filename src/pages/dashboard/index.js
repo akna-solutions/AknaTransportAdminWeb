@@ -6,7 +6,7 @@ import DashboardStats from "./components/DashboardStats";
 import VehiclesList from "./components/VehiclesList";
 import UsersList from "./components/UsersList";
 import RecentActivities from "./components/RecentActivities";
-import { dashboardService } from "./services/dashboardService";
+import { services } from "../../common/services";
 
 const Dashboard = () => {
   const [stats, setStats] = useState({
@@ -30,8 +30,8 @@ const Dashboard = () => {
 
       // Fetch basic stats from API
       const [vehiclesResponse, usersResponse] = await Promise.all([
-        dashboardService.getVehiclesList({ pageSize: 100 }).catch(() => []),
-        dashboardService.getUsersList({ pageSize: 100 }).catch(() => []),
+        services.getVehiclesList({ pageSize: 100 }).catch(() => []),
+        services.getUsersList({ pageSize: 100 }).catch(() => []),
       ]);
 
       // Calculate stats from API responses
