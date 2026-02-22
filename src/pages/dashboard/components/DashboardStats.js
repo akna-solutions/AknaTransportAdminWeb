@@ -27,22 +27,6 @@ const DashboardStats = ({ stats }) => {
       prefix: null,
       suffix: null,
     },
-    {
-      title: "Pending Bookings",
-      value: stats?.pendingBookings || 0,
-      icon: <CalendarOutlined style={{ color: "#faad14" }} />,
-      color: "#faad14",
-      prefix: null,
-      suffix: null,
-    },
-    {
-      title: "Unpaid Invoices",
-      value: stats?.unpaidInvoices || 0,
-      icon: <FileTextOutlined style={{ color: "#ff4d4f" }} />,
-      color: "#ff4d4f",
-      prefix: null,
-      suffix: null,
-    },
   ];
 
   const performanceData = [

@@ -28,7 +28,7 @@ const LoginForm = () => {
   const handleSubmit = async (values) => {
     try {
       setLoading(true);
-      const response = await services({
+      const response = await services.loginUser({
         userCode: values.email,
         password: values.password,
         rememberMe: values.remember || false,

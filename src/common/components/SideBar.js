@@ -42,33 +42,18 @@ const SideBar = ({ collapsed, onCollapse }) => {
       label: "Drivers",
     },
     {
-      key: "/bookings",
-      icon: <CalendarOutlined />,
-      label: "Bookings",
-    },
-    {
       key: "/invoices",
       icon: <FileTextOutlined />,
       label: "Invoices",
     },
     {
-      key: "/community",
+      key: "/loads",
       icon: <TeamOutlined />,
-      label: "Community",
+      label: "Loads",
     },
     {
       key: "divider1",
       type: "divider",
-    },
-    {
-      key: "/notifications",
-      icon: <BellOutlined />,
-      label: "Notifications",
-    },
-    {
-      key: "/settings",
-      icon: <SettingOutlined />,
-      label: "Settings",
     },
     {
       key: "logout",

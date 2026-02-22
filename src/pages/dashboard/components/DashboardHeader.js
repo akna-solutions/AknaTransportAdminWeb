@@ -112,21 +112,23 @@ const DashboardHeader = () => {
                 }}
               />
             </Badge>
-
-            <Button
-              type="primary"
-              icon={<PlusOutlined />}
-              style={{
-                borderRadius: "8px",
-                height: "40px",
-                background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
-                border: "none",
-                fontWeight: "500",
-                boxShadow: "0 4px 12px rgba(102, 126, 234, 0.3)",
-              }}
-            >
-              Quick Add
-            </Button>
+            <a href="/create-load">
+              <Button
+                type="primary"
+                icon={<PlusOutlined />}
+                style={{
+                  borderRadius: "8px",
+                  height: "40px",
+                  background:
+                    "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+                  border: "none",
+                  fontWeight: "500",
+                  boxShadow: "0 4px 12px rgba(102, 126, 234, 0.3)",
+                }}
+              >
+                Quick Add
+              </Button>
+            </a>
           </Space>
         </div>
       </div>
