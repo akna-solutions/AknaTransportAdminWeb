@@ -89,22 +89,35 @@ const CreateLoad = () => {
   const handleSubmit = async () => {
     try {
       setLoading(true);
-      const values = form.getFieldsValue();
+
+      // Form değerlerini al - tüm alanları açıkça belirt
+      const formValues = form.getFieldsValue([
+        "title",
+        "description",
+        "weight",
+        "volume",
+        "contactPersonName",
+        "contactPhone",
+        "contactEmail",
+      ]);
+
+      console.log("Form Values:", formValues);
+      console.log("Load Stops:", loadStops);
 
       const loadData = {
         userId: userInfo.userId,
-        title: values.title,
-        description: values.description,
-        weight: values.weight,
-        volume: values.volume,
-        contactPersonName: values.contactPersonName,
-        contactPhone: values.contactPhone,
-        contactEmail: values.contactEmail,
+        title: formValues.title,
+        description: formValues.description || null,
+        weight: formValues.weight || null,
+        volume: formValues.volume || null,
+        contactPersonName: formValues.contactPersonName || null,
+        contactPhone: formValues.contactPhone || null,
+        contactEmail: formValues.contactEmail || null,
         loadStops: loadStops.map((stop, index) => ({
           stopType: stop.stopType,
           stopOrder: index + 1,
-          contactPersonName: stop.contactPersonName,
-          contactPhone: stop.contactPhone,
+          contactPersonName: stop.contactPersonName || null,
+          contactPhone: stop.contactPhone || null,
           address: stop.address,
           city: stop.city,
           district: stop.district,
@@ -112,11 +125,13 @@ const CreateLoad = () => {
         })),
       };
 
+      console.log("Payload to send:", JSON.stringify(loadData, null, 2));
+
       const response = await services.createLoad(loadData);
 
       if (response.isSuccess) {
         message.success("Load created successfully!");
-        navigate("/dashboard");
+        navigate("/loads");
       } else {
         message.error(response.message || "Failed to create load");
       }
@@ -196,7 +211,7 @@ const CreateLoad = () => {
           </Card>
 
           {/* Content */}
-          <Form form={form} layout="vertical">
+          <Form form={form} layout="vertical" preserve={true}>
             {renderStepContent()}
           </Form>
 
@@ -216,7 +231,7 @@ const CreateLoad = () => {
               }}
             >
               <Button
-                onClick={() => navigate("/dashboard")}
+                onClick={() => navigate("/loads")}
                 size="large"
                 style={{ borderRadius: "8px" }}
               >

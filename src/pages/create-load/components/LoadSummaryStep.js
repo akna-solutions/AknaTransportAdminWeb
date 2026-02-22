@@ -4,8 +4,21 @@ import { Card, Descriptions, Tag, Timeline } from "antd";
 import { EnvironmentOutlined, CheckCircleOutlined } from "@ant-design/icons";
 
 const LoadSummaryStep = ({ form, loadStops }) => {
-  // Form değerlerini güvenli bir şekilde al
-  const values = form.getFieldsValue() || {};
+  // Form değerlerini doğru şekilde al - tüm alanları açıkça belirt
+  const values =
+    form.getFieldsValue([
+      "title",
+      "description",
+      "weight",
+      "volume",
+      "contactPersonName",
+      "contactPhone",
+      "contactEmail",
+    ]) || {};
+
+  // Debug için
+  console.log("Summary Step - Form Values:", values);
+  console.log("Summary Step - Load Stops:", loadStops);
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>

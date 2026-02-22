@@ -12,6 +12,7 @@ import {
   Col,
   Space,
   Empty,
+  Alert,
 } from "antd";
 import {
   PlusOutlined,
@@ -20,6 +21,7 @@ import {
   EnvironmentOutlined,
   UpOutlined,
   DownOutlined,
+  WarningOutlined,
 } from "@ant-design/icons";
 
 const { Option } = Select;
@@ -29,9 +31,19 @@ const LoadStopsStep = ({ loadStops, setLoadStops, form }) => {
   const [editingStop, setEditingStop] = useState(null);
   const [stopForm] = Form.useForm();
 
+  // Pickup durak sayısını kontrol et
+  const pickupCount = loadStops.filter((stop) => stop.stopType === 0).length;
+  const deliveryCount = loadStops.filter((stop) => stop.stopType === 1).length;
+
   const handleAddStop = () => {
     setEditingStop(null);
     stopForm.resetFields();
+
+    // Eğer hiç pickup yoksa, ilk durağı pickup olarak ayarla
+    if (pickupCount === 0) {
+      stopForm.setFieldsValue({ stopType: 0 });
+    }
+
     setIsModalVisible(true);
   };
 
@@ -69,6 +81,16 @@ const LoadStopsStep = ({ loadStops, setLoadStops, form }) => {
   const handleSaveStop = async () => {
     try {
       const values = await stopForm.validateFields();
+
+      // Eğer hiç pickup yoksa ve delivery eklemeye çalışıyorsa engelle
+      if (pickupCount === 0 && values.stopType === 1 && editingStop === null) {
+        Modal.error({
+          title: "Pickup Durağı Gerekli",
+          content:
+            "Delivery durağı eklemeden önce en az bir Pickup durağı eklemelisiniz.",
+        });
+        return;
+      }
 
       if (editingStop !== null && editingStop.index !== undefined) {
         // Edit existing stop
@@ -116,7 +138,13 @@ const LoadStopsStep = ({ loadStops, setLoadStops, form }) => {
             <h3 style={{ margin: 0, fontSize: "18px", fontWeight: "600" }}>
               Load Stops
             </h3>
-            <p style={{ margin: "4px 0 0 0", color: "#8c8c8c", fontSize: "14px" }}>
+            <p
+              style={{
+                margin: "4px 0 0 0",
+                color: "#8c8c8c",
+                fontSize: "14px",
+              }}
+            >
               Add pickup and delivery locations
             </p>
           </div>
@@ -133,6 +161,70 @@ const LoadStopsStep = ({ loadStops, setLoadStops, form }) => {
             Add Stop
           </Button>
         </div>
+
+        {/* Uyarı mesajı - Pickup yoksa göster */}
+        {pickupCount === 0 && loadStops.length > 0 && (
+          <Alert
+            message="En az bir Pickup durağı eklemelisiniz"
+            description="Delivery durağı eklemeden önce yük alma noktası belirlemeniz gerekmektedir."
+            type="warning"
+            icon={<WarningOutlined />}
+            showIcon
+            style={{ marginBottom: "16px" }}
+          />
+        )}
+
+        {/* Bilgi kartı */}
+        {loadStops.length > 0 && (
+          <div
+            style={{
+              padding: "12px 16px",
+              background: "#f0f5ff",
+              borderRadius: "8px",
+              marginBottom: "16px",
+              display: "flex",
+              justifyContent: "space-around",
+              alignItems: "center",
+            }}
+          >
+            <div style={{ textAlign: "center" }}>
+              <div
+                style={{
+                  fontSize: "20px",
+                  fontWeight: "bold",
+                  color: "#1890ff",
+                }}
+              >
+                {pickupCount}
+              </div>
+              <div style={{ fontSize: "12px", color: "#8c8c8c" }}>Pickup</div>
+            </div>
+            <div style={{ textAlign: "center" }}>
+              <div
+                style={{
+                  fontSize: "20px",
+                  fontWeight: "bold",
+                  color: "#52c41a",
+                }}
+              >
+                {deliveryCount}
+              </div>
+              <div style={{ fontSize: "12px", color: "#8c8c8c" }}>Delivery</div>
+            </div>
+            <div style={{ textAlign: "center" }}>
+              <div
+                style={{
+                  fontSize: "20px",
+                  fontWeight: "bold",
+                  color: "#722ed1",
+                }}
+              >
+                {loadStops.length}
+              </div>
+              <div style={{ fontSize: "12px", color: "#8c8c8c" }}>Total</div>
+            </div>
+          </div>
+        )}
 
         {loadStops.length === 0 ? (
           <Empty
@@ -229,7 +321,10 @@ const LoadStopsStep = ({ loadStops, setLoadStops, form }) => {
         title={editingStop !== null ? "Edit Stop" : "Add New Stop"}
         open={isModalVisible}
         onOk={handleSaveStop}
-        onCancel={() => setIsModalVisible(false)}
+        onCancel={() => {
+          setIsModalVisible(false);
+          stopForm.resetFields();
+        }}
         width={700}
         okText="Save"
         cancelText="Cancel"
@@ -256,9 +351,15 @@ const LoadStopsStep = ({ loadStops, setLoadStops, form }) => {
                   placeholder="Select type"
                   size="large"
                   style={{ borderRadius: "8px" }}
+                  disabled={pickupCount === 0 && editingStop === null}
                 >
                   <Option value={0}>Pickup</Option>
-                  <Option value={1}>Delivery</Option>
+                  <Option
+                    value={1}
+                    disabled={pickupCount === 0 && editingStop === null}
+                  >
+                    Delivery {pickupCount === 0 && "(First add a Pickup)"}
+                  </Option>
                 </Select>
               </Form.Item>
             </Col>
@@ -303,7 +404,10 @@ const LoadStopsStep = ({ loadStops, setLoadStops, form }) => {
                 label="District"
                 rules={[
                   { required: true, message: "Please enter district" },
-                  { max: 100, message: "District cannot exceed 100 characters" },
+                  {
+                    max: 100,
+                    message: "District cannot exceed 100 characters",
+                  },
                 ]}
               >
                 <Input
@@ -355,10 +459,7 @@ const LoadStopsStep = ({ loadStops, setLoadStops, form }) => {
                   { max: 100, message: "Country cannot exceed 100 characters" },
                 ]}
               >
-                <Input
-                  size="large"
-                  style={{ borderRadius: "8px" }}
-                />
+                <Input size="large" style={{ borderRadius: "8px" }} />
               </Form.Item>
             </Col>
           </Row>
