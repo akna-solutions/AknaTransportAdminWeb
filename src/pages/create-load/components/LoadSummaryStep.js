@@ -1,9 +1,11 @@
+// src/pages/create-load/components/LoadSummaryStep.js
 import React from "react";
 import { Card, Descriptions, Tag, Timeline } from "antd";
 import { EnvironmentOutlined, CheckCircleOutlined } from "@ant-design/icons";
 
 const LoadSummaryStep = ({ form, loadStops }) => {
-  const values = form.getFieldsValue();
+  // Form değerlerini güvenli bir şekilde al
+  const values = form.getFieldsValue() || {};
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
@@ -75,7 +77,7 @@ const LoadSummaryStep = ({ form, loadStops }) => {
             <span style={{ fontSize: "18px", fontWeight: "600" }}>
               Load Stops
             </span>
-            <Tag color="blue">{loadStops.length} Stops</Tag>
+            <Tag color="blue">{loadStops?.length || 0} Stops</Tag>
           </div>
         }
         style={{
@@ -84,8 +86,10 @@ const LoadSummaryStep = ({ form, loadStops }) => {
           boxShadow: "0 2px 8px rgba(0,0,0,0.04)",
         }}
       >
-        {loadStops.length === 0 ? (
-          <div style={{ textAlign: "center", padding: "40px", color: "#8c8c8c" }}>
+        {!loadStops || loadStops.length === 0 ? (
+          <div
+            style={{ textAlign: "center", padding: "40px", color: "#8c8c8c" }}
+          >
             No stops added
           </div>
         ) : (
@@ -135,11 +139,11 @@ const LoadSummaryStep = ({ form, loadStops }) => {
 
                   <div style={{ color: "#595959", lineHeight: "1.8" }}>
                     <div>
-                      <strong>Address:</strong> {stop.address}
+                      <strong>Address:</strong> {stop.address || "N/A"}
                     </div>
                     <div>
-                      <strong>Location:</strong> {stop.city}, {stop.district},{" "}
-                      {stop.country}
+                      <strong>Location:</strong> {stop.city || "N/A"},{" "}
+                      {stop.district || "N/A"}, {stop.country || "Türkiye"}
                     </div>
                     {stop.contactPersonName && (
                       <div>
@@ -173,24 +177,34 @@ const LoadSummaryStep = ({ form, loadStops }) => {
           }}
         >
           <div style={{ textAlign: "center" }}>
-            <div style={{ fontSize: "24px", fontWeight: "bold", color: "#1890ff" }}>
-              {loadStops.filter((s) => s.stopType === 0).length}
+            <div
+              style={{ fontSize: "24px", fontWeight: "bold", color: "#1890ff" }}
+            >
+              {loadStops?.filter((s) => s.stopType === 0).length || 0}
             </div>
-            <div style={{ color: "#8c8c8c", marginTop: "4px" }}>Pickup Points</div>
+            <div style={{ color: "#8c8c8c", marginTop: "4px" }}>
+              Pickup Points
+            </div>
           </div>
           <div style={{ textAlign: "center" }}>
-            <div style={{ fontSize: "24px", fontWeight: "bold", color: "#52c41a" }}>
-              {loadStops.filter((s) => s.stopType === 1).length}
+            <div
+              style={{ fontSize: "24px", fontWeight: "bold", color: "#52c41a" }}
+            >
+              {loadStops?.filter((s) => s.stopType === 1).length || 0}
             </div>
             <div style={{ color: "#8c8c8c", marginTop: "4px" }}>
               Delivery Points
             </div>
           </div>
           <div style={{ textAlign: "center" }}>
-            <div style={{ fontSize: "24px", fontWeight: "bold", color: "#722ed1" }}>
-              {loadStops.length}
+            <div
+              style={{ fontSize: "24px", fontWeight: "bold", color: "#722ed1" }}
+            >
+              {loadStops?.length || 0}
             </div>
-            <div style={{ color: "#8c8c8c", marginTop: "4px" }}>Total Stops</div>
+            <div style={{ color: "#8c8c8c", marginTop: "4px" }}>
+              Total Stops
+            </div>
           </div>
         </div>
       </Card>

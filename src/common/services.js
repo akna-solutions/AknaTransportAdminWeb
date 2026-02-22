@@ -308,4 +308,43 @@ export const services = {
       throw error;
     }
   },
+
+  getUserVehicles: async (userId) => {
+    try {
+      const response = await fetch(
+        `${API_URLS.IDENTITY}/api/vehicle/user/${userId}`,
+        {
+          method: "GET",
+          headers: getHeaders(),
+        },
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      return await response.json();
+    } catch (error) {
+      return handleApiError(error);
+    }
+  },
+
+  // Yük eşleştir
+  matchLoad: async (matchData) => {
+    try {
+      const response = await fetch(`${API_URLS.LOAD}/api/load/match`, {
+        method: "PATCH",
+        headers: getHeaders(),
+        body: JSON.stringify(matchData),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      return await response.json();
+    } catch (error) {
+      return handleApiError(error);
+    }
+  },
 };

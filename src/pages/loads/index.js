@@ -22,6 +22,7 @@ import {
   MoreOutlined,
   ExclamationCircleOutlined,
   EnvironmentOutlined,
+  CheckCircleOutlined,
 } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import MainLayout from "../../common/components/MainLayout";
@@ -29,6 +30,7 @@ import LoadDetailsModal from "./components/LoadDetailsModal";
 import LoadStatusTag from "./components/LoadStatusTag";
 import LoadStopsColumn from "./components/LoadStopsColumn";
 import { services } from "../../common/services";
+import MatchLoadModal from "./components/MatchLoadModal";
 
 const { Option } = Select;
 const { RangePicker } = DatePicker;
@@ -39,6 +41,8 @@ const Loads = () => {
   const [loading, setLoading] = useState(false);
   const [selectedLoad, setSelectedLoad] = useState(null);
   const [detailsModalVisible, setDetailsModalVisible] = useState(false);
+  const [matchModalVisible, setMatchModalVisible] = useState(false);
+  const [selectedLoadForMatch, setSelectedLoadForMatch] = useState(null);
   const [filters, setFilters] = useState({
     title: "",
     city: "",
@@ -86,6 +90,11 @@ const Loads = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleMatch = (load) => {
+    setSelectedLoadForMatch(load);
+    setMatchModalVisible(true);
   };
 
   const handleSearch = () => {
@@ -143,19 +152,25 @@ const Loads = () => {
     {
       key: "view",
       icon: <EyeOutlined />,
-      label: "View Details",
+      label: "Detayları Gör",
       onClick: () => handleViewDetails(record),
+    },
+    {
+      key: "match",
+      icon: <CheckCircleOutlined />,
+      label: "Eşleştir",
+      onClick: () => handleMatch(record),
     },
     {
       key: "edit",
       icon: <EditOutlined />,
-      label: "Edit Load",
+      label: "Düzenle",
       onClick: () => navigate(`/edit-load/${record.id}`),
     },
     {
       key: "delete",
       icon: <DeleteOutlined />,
-      label: "Delete Load",
+      label: "Sil",
       danger: true,
       onClick: () => handleDelete(record.id, record.title),
     },
@@ -521,6 +536,17 @@ const Loads = () => {
           />
         </div>
       </div>
+      <MatchLoadModal
+        visible={matchModalVisible}
+        load={selectedLoadForMatch}
+        onClose={() => {
+          setMatchModalVisible(false);
+          setSelectedLoadForMatch(null);
+        }}
+        onSuccess={() => {
+          fetchLoads(pagination.current, pagination.pageSize);
+        }}
+      />
     </MainLayout>
   );
 };
