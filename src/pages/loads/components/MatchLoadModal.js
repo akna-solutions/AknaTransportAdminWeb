@@ -53,7 +53,7 @@ const MatchLoadModal = ({ visible, load, onClose, onSuccess }) => {
       setLoadingUsers(true);
       const response = await services.getUsersList({
         pageSize: 100,
-        userType: 2, // Only drivers
+        userType: 1, // Only drivers
       });
       setUsers(response || []);
     } catch (error) {
