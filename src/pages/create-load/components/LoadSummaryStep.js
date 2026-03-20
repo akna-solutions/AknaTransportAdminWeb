@@ -1,10 +1,8 @@
-// src/pages/create-load/components/LoadSummaryStep.js
 import React from "react";
 import { Card, Descriptions, Tag, Timeline } from "antd";
 import { EnvironmentOutlined, CheckCircleOutlined } from "@ant-design/icons";
 
 const LoadSummaryStep = ({ form, loadStops }) => {
-  // Form değerlerini doğru şekilde al - tüm alanları açıkça belirt
   const values =
     form.getFieldsValue([
       "title",
@@ -16,17 +14,16 @@ const LoadSummaryStep = ({ form, loadStops }) => {
       "contactEmail",
     ]) || {};
 
-  // Debug için
   console.log("Summary Step - Form Values:", values);
   console.log("Summary Step - Load Stops:", loadStops);
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "24px" }}>
-      {/* Load Information */}
+      {/* Yük Bilgileri */}
       <Card
         title={
           <span style={{ fontSize: "18px", fontWeight: "600" }}>
-            Load Information
+            Yük Bilgileri
           </span>
         }
         style={{
@@ -36,26 +33,26 @@ const LoadSummaryStep = ({ form, loadStops }) => {
         }}
       >
         <Descriptions column={{ xs: 1, sm: 2 }} bordered>
-          <Descriptions.Item label="Title" span={2}>
-            <strong>{values.title || "N/A"}</strong>
+          <Descriptions.Item label="Başlık" span={2}>
+            <strong>{values.title || "—"}</strong>
           </Descriptions.Item>
-          <Descriptions.Item label="Description" span={2}>
-            {values.description || "N/A"}
+          <Descriptions.Item label="Açıklama" span={2}>
+            {values.description || "—"}
           </Descriptions.Item>
-          <Descriptions.Item label="Weight">
-            {values.weight ? `${values.weight} kg` : "N/A"}
+          <Descriptions.Item label="Ağırlık">
+            {values.weight ? `${values.weight} kg` : "—"}
           </Descriptions.Item>
-          <Descriptions.Item label="Volume">
-            {values.volume ? `${values.volume} m³` : "N/A"}
+          <Descriptions.Item label="Hacim">
+            {values.volume ? `${values.volume} m³` : "—"}
           </Descriptions.Item>
         </Descriptions>
       </Card>
 
-      {/* Contact Information */}
+      {/* İletişim Bilgileri */}
       <Card
         title={
           <span style={{ fontSize: "18px", fontWeight: "600" }}>
-            Contact Information
+            İletişim Bilgileri
           </span>
         }
         style={{
@@ -65,19 +62,19 @@ const LoadSummaryStep = ({ form, loadStops }) => {
         }}
       >
         <Descriptions column={{ xs: 1, sm: 2 }} bordered>
-          <Descriptions.Item label="Contact Person">
-            {values.contactPersonName || "N/A"}
+          <Descriptions.Item label="İletişim Kişisi">
+            {values.contactPersonName || "—"}
           </Descriptions.Item>
-          <Descriptions.Item label="Phone">
-            {values.contactPhone || "N/A"}
+          <Descriptions.Item label="Telefon">
+            {values.contactPhone || "—"}
           </Descriptions.Item>
-          <Descriptions.Item label="Email" span={2}>
-            {values.contactEmail || "N/A"}
+          <Descriptions.Item label="E-posta" span={2}>
+            {values.contactEmail || "—"}
           </Descriptions.Item>
         </Descriptions>
       </Card>
 
-      {/* Load Stops */}
+      {/* Yük Durakları */}
       <Card
         title={
           <div
@@ -88,9 +85,17 @@ const LoadSummaryStep = ({ form, loadStops }) => {
             }}
           >
             <span style={{ fontSize: "18px", fontWeight: "600" }}>
-              Load Stops
+              Yük Durakları
             </span>
-            <Tag color="blue">{loadStops?.length || 0} Stops</Tag>
+            <Tag
+              style={{
+                border: "1px solid #e8e8e8",
+                background: "#f5f5f5",
+                color: "#595959",
+              }}
+            >
+              {loadStops?.length || 0} Durak
+            </Tag>
           </div>
         }
         style={{
@@ -103,7 +108,7 @@ const LoadSummaryStep = ({ form, loadStops }) => {
           <div
             style={{ textAlign: "center", padding: "40px", color: "#8c8c8c" }}
           >
-            No stops added
+            Durak eklenmedi
           </div>
         ) : (
           <Timeline
@@ -114,15 +119,12 @@ const LoadSummaryStep = ({ form, loadStops }) => {
                     width: "32px",
                     height: "32px",
                     borderRadius: "50%",
-                    backgroundColor:
-                      stop.stopType === 0 ? "#1890ff15" : "#52c41a15",
+                    backgroundColor: "#f5f5f5",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    color: stop.stopType === 0 ? "#1890ff" : "#52c41a",
-                    border: `2px solid ${
-                      stop.stopType === 0 ? "#1890ff" : "#52c41a"
-                    }`,
+                    color: "#333333",
+                    border: "2px solid #d9d9d9",
                   }}
                 >
                   {stop.stopType === 0 ? (
@@ -143,24 +145,30 @@ const LoadSummaryStep = ({ form, loadStops }) => {
                     }}
                   >
                     <strong style={{ fontSize: "16px" }}>
-                      Stop {index + 1}
+                      Durak {index + 1}
                     </strong>
-                    <Tag color={stop.stopType === 0 ? "blue" : "green"}>
-                      {stop.stopType === 0 ? "Pickup" : "Delivery"}
+                    <Tag
+                      style={{
+                        border: "1px solid #e8e8e8",
+                        background: "#f5f5f5",
+                        color: "#595959",
+                      }}
+                    >
+                      {stop.stopType === 0 ? "Alış" : "Teslimat"}
                     </Tag>
                   </div>
 
                   <div style={{ color: "#595959", lineHeight: "1.8" }}>
                     <div>
-                      <strong>Address:</strong> {stop.address || "N/A"}
+                      <strong>Adres:</strong> {stop.address || "—"}
                     </div>
                     <div>
-                      <strong>Location:</strong> {stop.city || "N/A"},{" "}
-                      {stop.district || "N/A"}, {stop.country || "Türkiye"}
+                      <strong>Konum:</strong> {stop.city || "—"},{" "}
+                      {stop.district || "—"}, {stop.country || "Türkiye"}
                     </div>
                     {stop.contactPersonName && (
                       <div>
-                        <strong>Contact:</strong> {stop.contactPersonName}
+                        <strong>İletişim:</strong> {stop.contactPersonName}
                         {stop.contactPhone && ` - ${stop.contactPhone}`}
                       </div>
                     )}
@@ -172,12 +180,12 @@ const LoadSummaryStep = ({ form, loadStops }) => {
         )}
       </Card>
 
-      {/* Summary Stats */}
+      {/* Özet İstatistikler */}
       <Card
         style={{
           borderRadius: "16px",
-          border: "1px solid #f0f5ff",
-          background: "#f0f5ff",
+          border: "1px solid #e8e8e8",
+          background: "#f5f5f5",
           boxShadow: "0 2px 8px rgba(0,0,0,0.04)",
         }}
       >
@@ -191,32 +199,32 @@ const LoadSummaryStep = ({ form, loadStops }) => {
         >
           <div style={{ textAlign: "center" }}>
             <div
-              style={{ fontSize: "24px", fontWeight: "bold", color: "#1890ff" }}
+              style={{ fontSize: "24px", fontWeight: "bold", color: "#111111" }}
             >
               {loadStops?.filter((s) => s.stopType === 0).length || 0}
             </div>
             <div style={{ color: "#8c8c8c", marginTop: "4px" }}>
-              Pickup Points
+              Alış Noktası
             </div>
           </div>
           <div style={{ textAlign: "center" }}>
             <div
-              style={{ fontSize: "24px", fontWeight: "bold", color: "#52c41a" }}
+              style={{ fontSize: "24px", fontWeight: "bold", color: "#444444" }}
             >
               {loadStops?.filter((s) => s.stopType === 1).length || 0}
             </div>
             <div style={{ color: "#8c8c8c", marginTop: "4px" }}>
-              Delivery Points
+              Teslimat Noktası
             </div>
           </div>
           <div style={{ textAlign: "center" }}>
             <div
-              style={{ fontSize: "24px", fontWeight: "bold", color: "#722ed1" }}
+              style={{ fontSize: "24px", fontWeight: "bold", color: "#777777" }}
             >
               {loadStops?.length || 0}
             </div>
             <div style={{ color: "#8c8c8c", marginTop: "4px" }}>
-              Total Stops
+              Toplam Durak
             </div>
           </div>
         </div>
