@@ -14,7 +14,7 @@ import {
   EyeInvisibleOutlined,
   EyeTwoTone,
 } from "@ant-design/icons";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { services } from "../../../common/services";
 
 const { Title, Text, Link } = Typography;
@@ -36,7 +36,6 @@ const LoginForm = () => {
 
       if (response.isSuccess) {
         message.success("Giriş başarılı!");
-        // Token'ları localStorage'a kaydet
         localStorage.setItem("accessToken", response.accessToken);
         localStorage.setItem("refreshToken", response.refreshToken);
         localStorage.setItem(
@@ -70,7 +69,7 @@ const LoginForm = () => {
         alignItems: "center",
         justifyContent: "center",
         padding: "20px",
-        background: "#f8f9fa",
+        background: "#f5f5f5",
       }}
     >
       <Card
@@ -79,16 +78,16 @@ const LoginForm = () => {
           maxWidth: 420,
           boxShadow: "0 10px 40px rgba(0,0,0,0.1)",
           borderRadius: "16px",
-          border: "none",
+          border: "1px solid #e8e8e8",
         }}
         bodyStyle={{ padding: "40px 30px" }}
       >
         <div style={{ textAlign: "center", marginBottom: 32 }}>
-          <Title level={2} style={{ margin: 0, fontSize: 32, fontWeight: 600 }}>
-            Welcome Back!
+          <Title level={2} style={{ margin: 0, fontSize: 32, fontWeight: 600, color: "#111111" }}>
+            Tekrar Hoşgeldiniz!
           </Title>
           <Text style={{ color: "#8c8c8c", fontSize: 16 }}>
-            Log in to start creating stunning videos with ease.
+            Hesabınıza giriş yapın.
           </Text>
         </div>
 
@@ -99,15 +98,15 @@ const LoginForm = () => {
           requiredMark={false}
         >
           <Form.Item
-            label="Email"
+            label="E-posta"
             name="email"
             rules={[
-              { required: true, message: "Email gerekli!" },
-              { type: "email", message: "Geçerli bir email adresi girin!" },
+              { required: true, message: "E-posta gerekli!" },
+              { type: "email", message: "Geçerli bir e-posta adresi girin!" },
             ]}
           >
             <Input
-              placeholder="Input your email"
+              placeholder="E-posta adresinizi girin"
               size="large"
               style={{
                 borderRadius: "8px",
@@ -118,7 +117,7 @@ const LoginForm = () => {
           </Form.Item>
 
           <Form.Item
-            label="Password"
+            label="Şifre"
             name="password"
             rules={[
               { required: true, message: "Şifre gerekli!" },
@@ -126,7 +125,7 @@ const LoginForm = () => {
             ]}
           >
             <Input.Password
-              placeholder="Input your company name"
+              placeholder="Şifrenizi girin"
               size="large"
               iconRender={(visible) =>
                 visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
@@ -148,10 +147,10 @@ const LoginForm = () => {
               }}
             >
               <Form.Item name="remember" valuePropName="checked" noStyle>
-                <Checkbox style={{ color: "#8c8c8c" }}>Remember Me</Checkbox>
+                <Checkbox style={{ color: "#8c8c8c" }}>Beni Hatırla</Checkbox>
               </Form.Item>
-              <Link href="#" style={{ color: "#000000ff" }}>
-                Forgot Password?
+              <Link href="#" style={{ color: "#111111" }}>
+                Şifremi Unuttum?
               </Link>
             </div>
           </Form.Item>
@@ -166,18 +165,18 @@ const LoginForm = () => {
                 width: "100%",
                 height: "48px",
                 borderRadius: "8px",
-                background: "#000000ff",
+                background: "#111111",
                 border: "none",
                 fontSize: "16px",
                 fontWeight: 500,
               }}
             >
-              Login
+              Giriş Yap
             </Button>
           </Form.Item>
 
           <Divider style={{ color: "#8c8c8c", fontSize: 14 }}>
-            Or continue with
+            Veya şununla devam et
           </Divider>
 
           <Button
@@ -197,17 +196,17 @@ const LoginForm = () => {
               justifyContent: "center",
             }}
           >
-            Continue with Google
+            Google ile Devam Et
           </Button>
 
           <div style={{ textAlign: "center", marginTop: 24 }}>
             <Text style={{ color: "#8c8c8c" }}>
-              Don't have an account?{" "}
+              Hesabınız yok mu?{" "}
               <Link
                 href="/register"
-                style={{ color: "#000000ff", fontWeight: 500 }}
+                style={{ color: "#111111", fontWeight: 500 }}
               >
-                Sign up here
+                Kayıt Olun
               </Link>
             </Text>
           </div>

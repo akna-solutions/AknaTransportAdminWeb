@@ -4,31 +4,29 @@ import { EnvironmentOutlined } from "@ant-design/icons";
 
 const LoadStopsColumn = ({ stops }) => {
   if (!stops || stops.length === 0) {
-    return <span style={{ color: "#8c8c8c" }}>No stops</span>;
+    return <span style={{ color: "#8c8c8c" }}>Durak yok</span>;
   }
 
-  // Sort stops by order
   const sortedStops = [...stops].sort((a, b) => a.stopOrder - b.stopOrder);
-
-  // Get pickup and delivery stops
   const pickupStops = sortedStops.filter((stop) => stop.stopType === 0);
   const deliveryStops = sortedStops.filter((stop) => stop.stopType === 1);
 
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
-      {/* Pickup Stops */}
       {pickupStops.length > 0 && (
         <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
           <Tag
-            color="blue"
             style={{
               margin: 0,
               fontSize: "11px",
               padding: "2px 8px",
               borderRadius: "4px",
+              border: "1px solid #d9d9d9",
+              background: "#f5f5f5",
+              color: "#595959",
             }}
           >
-            Pickup
+            Alış
           </Tag>
           <div style={{ display: "flex", flexWrap: "wrap", gap: "4px" }}>
             {pickupStops.map((stop, index) => (
@@ -51,7 +49,7 @@ const LoadStopsColumn = ({ stops }) => {
                     alignItems: "center",
                     gap: "4px",
                     fontSize: "12px",
-                    color: "#1890ff",
+                    color: "#333333",
                     cursor: "pointer",
                   }}
                 >
@@ -67,19 +65,20 @@ const LoadStopsColumn = ({ stops }) => {
         </div>
       )}
 
-      {/* Delivery Stops */}
       {deliveryStops.length > 0 && (
         <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
           <Tag
-            color="green"
             style={{
               margin: 0,
               fontSize: "11px",
               padding: "2px 8px",
               borderRadius: "4px",
+              border: "1px solid #d9d9d9",
+              background: "#f0f0f0",
+              color: "#595959",
             }}
           >
-            Delivery
+            Teslimat
           </Tag>
           <div style={{ display: "flex", flexWrap: "wrap", gap: "4px" }}>
             {deliveryStops.map((stop, index) => (
@@ -102,7 +101,7 @@ const LoadStopsColumn = ({ stops }) => {
                     alignItems: "center",
                     gap: "4px",
                     fontSize: "12px",
-                    color: "#52c41a",
+                    color: "#555555",
                     cursor: "pointer",
                   }}
                 >

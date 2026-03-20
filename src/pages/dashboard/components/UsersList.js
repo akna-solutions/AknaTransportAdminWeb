@@ -16,7 +16,6 @@ import {
   DeleteOutlined,
   MoreOutlined,
   ExclamationCircleOutlined,
-  UserOutlined,
   MailOutlined,
   PhoneOutlined,
   CheckCircleOutlined,
@@ -43,14 +42,13 @@ const UsersList = () => {
     try {
       setLoading(true);
 
-      // Mock data for users - replace with actual API call when ready
       const mockUsers = [
         {
           id: 1,
-          name: "John",
-          surname: "Doe",
-          userCode: "JD001",
-          email: "john.doe@example.com",
+          name: "Ahmet",
+          surname: "Yılmaz",
+          userCode: "AY001",
+          email: "ahmet.yilmaz@example.com",
           phoneNumber: "+90 532 123 4567",
           userType: 1,
           gender: 1,
@@ -60,10 +58,10 @@ const UsersList = () => {
         },
         {
           id: 2,
-          name: "Sarah",
-          surname: "Wilson",
-          userCode: "SW002",
-          email: "sarah.wilson@example.com",
+          name: "Fatma",
+          surname: "Demir",
+          userCode: "FD002",
+          email: "fatma.demir@example.com",
           phoneNumber: "+90 533 987 6543",
           userType: 1,
           gender: 2,
@@ -73,10 +71,10 @@ const UsersList = () => {
         },
         {
           id: 3,
-          name: "Michael",
-          surname: "Johnson",
-          userCode: "MJ003",
-          email: "michael.johnson@example.com",
+          name: "Mehmet",
+          surname: "Kaya",
+          userCode: "MK003",
+          email: "mehmet.kaya@example.com",
           phoneNumber: "+90 534 555 7890",
           userType: 2,
           gender: 1,
@@ -93,22 +91,8 @@ const UsersList = () => {
         pageSize: pageSize,
         total: mockUsers.length,
       }));
-
-      // Uncomment below to use actual API
-      // const response = await services.getUsersList({
-      //   page,
-      //   pageSize,
-      //   ...filters
-      // });
-      // setUsers(response || []);
-      // setPagination(prev => ({
-      //   ...prev,
-      //   current: page,
-      //   pageSize: pageSize,
-      //   total: response?.length || 0
-      // }));
     } catch (error) {
-      message.error("Failed to load users");
+      message.error("Kullanıcılar yüklenemedi");
       console.error("Error fetching users:", error);
     } finally {
       setLoading(false);
@@ -117,19 +101,19 @@ const UsersList = () => {
 
   const handleDelete = (userId, userName) => {
     confirm({
-      title: "Delete User",
+      title: "Kullanıcı Sil",
       icon: <ExclamationCircleOutlined />,
-      content: `Are you sure you want to delete user "${userName}"?`,
-      okText: "Yes, Delete",
+      content: `"${userName}" kullanıcısını silmek istediğinize emin misiniz?`,
+      okText: "Evet, Sil",
       okType: "danger",
-      cancelText: "Cancel",
+      cancelText: "İptal",
       onOk: async () => {
         try {
           await services.deleteUser(userId);
-          message.success("User deleted successfully");
+          message.success("Kullanıcı başarıyla silindi");
           fetchUsers(pagination.current, pagination.pageSize);
         } catch (error) {
-          message.error("Failed to delete user");
+          message.error("Kullanıcı silinemedi");
           console.error("Error deleting user:", error);
         }
       },
@@ -138,40 +122,50 @@ const UsersList = () => {
 
   const getUserTypeTag = (type) => {
     const types = {
-      1: { color: "blue", text: "Driver" },
-      2: { color: "green", text: "Admin" },
-      99: { color: "gold", text: "Super Admin" },
+      1: { text: "Sürücü" },
+      2: { text: "Yönetici" },
+      99: { text: "Süper Yönetici" },
     };
 
-    const config = types[type] || { color: "default", text: "Unknown" };
-    return <Tag color={config.color}>{config.text}</Tag>;
+    const config = types[type] || { text: "Bilinmiyor" };
+    return (
+      <Tag
+        style={{
+          border: "1px solid #e8e8e8",
+          background: "#f5f5f5",
+          color: "#595959",
+        }}
+      >
+        {config.text}
+      </Tag>
+    );
   };
 
   const getGenderText = (gender) => {
-    return gender === 1 ? "Male" : gender === 2 ? "Female" : "N/A";
+    return gender === 1 ? "Erkek" : gender === 2 ? "Kadın" : "—";
   };
 
   const getActionItems = (record) => [
     {
       key: "view",
       icon: <EyeOutlined />,
-      label: "View Profile",
+      label: "Profili Gör",
       onClick: () => {
-        message.info("View user profile functionality");
+        message.info("Profil görüntüleme işlevi");
       },
     },
     {
       key: "edit",
       icon: <EditOutlined />,
-      label: "Edit User",
+      label: "Düzenle",
       onClick: () => {
-        message.info("Edit user functionality");
+        message.info("Kullanıcı düzenleme işlevi");
       },
     },
     {
       key: "delete",
       icon: <DeleteOutlined />,
-      label: "Delete User",
+      label: "Sil",
       danger: true,
       onClick: () =>
         handleDelete(record.id, `${record.name} ${record.surname}`),
@@ -180,7 +174,7 @@ const UsersList = () => {
 
   const columns = [
     {
-      title: "User",
+      title: "Kullanıcı",
       dataIndex: "name",
       key: "name",
       render: (name, record) => (
@@ -188,7 +182,7 @@ const UsersList = () => {
           <Avatar
             size={40}
             style={{
-              backgroundColor: "#667eea",
+              backgroundColor: "#111111",
               color: "white",
               fontWeight: "bold",
             }}
@@ -208,7 +202,7 @@ const UsersList = () => {
       ),
     },
     {
-      title: "Contact",
+      title: "İletişim",
       key: "contact",
       render: (_, record) => (
         <div>
@@ -224,9 +218,9 @@ const UsersList = () => {
             <MailOutlined style={{ color: "#8c8c8c" }} />
             <span>{record.email}</span>
             {record.isEmailConfirmed ? (
-              <CheckCircleOutlined style={{ color: "#52c41a" }} />
+              <CheckCircleOutlined style={{ color: "#333333" }} />
             ) : (
-              <CloseCircleOutlined style={{ color: "#ff4d4f" }} />
+              <CloseCircleOutlined style={{ color: "#999999" }} />
             )}
           </div>
           {record.phoneNumber && (
@@ -242,9 +236,9 @@ const UsersList = () => {
               <PhoneOutlined />
               <span>{record.phoneNumber}</span>
               {record.isPhoneNumberConfirmed ? (
-                <CheckCircleOutlined style={{ color: "#52c41a" }} />
+                <CheckCircleOutlined style={{ color: "#333333" }} />
               ) : (
-                <CloseCircleOutlined style={{ color: "#ff4d4f" }} />
+                <CloseCircleOutlined style={{ color: "#999999" }} />
               )}
             </div>
           )}
@@ -252,13 +246,13 @@ const UsersList = () => {
       ),
     },
     {
-      title: "Type",
+      title: "Tür",
       dataIndex: "userType",
       key: "userType",
       render: (type) => getUserTypeTag(type),
     },
     {
-      title: "Gender",
+      title: "Cinsiyet",
       dataIndex: "gender",
       key: "gender",
       render: (gender) => (
@@ -268,7 +262,7 @@ const UsersList = () => {
       ),
     },
     {
-      title: "Status",
+      title: "Durum",
       key: "status",
       render: (_, record) => {
         const isVerified =
@@ -276,13 +270,13 @@ const UsersList = () => {
         return (
           <Badge
             status={isVerified ? "success" : "warning"}
-            text={isVerified ? "Verified" : "Pending"}
+            text={isVerified ? "Doğrulandı" : "Bekliyor"}
           />
         );
       },
     },
     {
-      title: "Actions",
+      title: "İşlem",
       key: "actions",
       width: 60,
       render: (_, record) => (
@@ -325,10 +319,13 @@ const UsersList = () => {
           }}
         >
           <span style={{ fontSize: "18px", fontWeight: "600" }}>
-            Recent Users
+            Son Kullanıcılar
           </span>
-          <Button type="primary" size="small">
-            View All
+          <Button
+            size="small"
+            style={{ borderRadius: "6px", borderColor: "#111111", color: "#111111" }}
+          >
+            Tümünü Gör
           </Button>
         </div>
       }
@@ -348,7 +345,7 @@ const UsersList = () => {
           showSizeChanger: false,
           showQuickJumper: false,
           showTotal: (total, range) =>
-            `${range[0]}-${range[1]} of ${total} users`,
+            `${range[0]}-${range[1]} / ${total} kullanıcı`,
         }}
         onChange={handleTableChange}
         rowKey="id"

@@ -10,23 +10,19 @@ import {
 const LoadStatusTag = ({ status }) => {
   const statusConfig = {
     draft: {
-      color: "default",
-      text: "Draft",
+      text: "Taslak",
       icon: <FileTextOutlined />,
     },
     published: {
-      color: "processing",
-      text: "Published",
+      text: "Yayında",
       icon: <RocketOutlined />,
     },
     matched: {
-      color: "warning",
-      text: "Matched",
+      text: "Eşleştirildi",
       icon: <CheckCircleOutlined />,
     },
     completed: {
-      color: "success",
-      text: "Completed",
+      text: "Tamamlandı",
       icon: <TrophyOutlined />,
     },
   };
@@ -35,7 +31,6 @@ const LoadStatusTag = ({ status }) => {
 
   return (
     <Tag
-      color={config.color}
       icon={config.icon}
       style={{
         fontSize: "12px",
@@ -44,6 +39,9 @@ const LoadStatusTag = ({ status }) => {
         display: "inline-flex",
         alignItems: "center",
         gap: "4px",
+        border: "1px solid #e8e8e8",
+        background: "#f5f5f5",
+        color: "#595959",
       }}
     >
       {config.text}

@@ -31,7 +31,6 @@ const LoadStopsStep = ({ loadStops, setLoadStops, form }) => {
   const [editingStop, setEditingStop] = useState(null);
   const [stopForm] = Form.useForm();
 
-  // Pickup durak sayısını kontrol et
   const pickupCount = loadStops.filter((stop) => stop.stopType === 0).length;
   const deliveryCount = loadStops.filter((stop) => stop.stopType === 1).length;
 
@@ -39,7 +38,6 @@ const LoadStopsStep = ({ loadStops, setLoadStops, form }) => {
     setEditingStop(null);
     stopForm.resetFields();
 
-    // Eğer hiç pickup yoksa, ilk durağı pickup olarak ayarla
     if (pickupCount === 0) {
       stopForm.setFieldsValue({ stopType: 0 });
     }
@@ -82,23 +80,20 @@ const LoadStopsStep = ({ loadStops, setLoadStops, form }) => {
     try {
       const values = await stopForm.validateFields();
 
-      // Eğer hiç pickup yoksa ve delivery eklemeye çalışıyorsa engelle
       if (pickupCount === 0 && values.stopType === 1 && editingStop === null) {
         Modal.error({
-          title: "Pickup Durağı Gerekli",
+          title: "Alış Durağı Gerekli",
           content:
-            "Delivery durağı eklemeden önce en az bir Pickup durağı eklemelisiniz.",
+            "Teslimat durağı eklemeden önce en az bir alış durağı eklemelisiniz.",
         });
         return;
       }
 
       if (editingStop !== null && editingStop.index !== undefined) {
-        // Edit existing stop
         const newStops = [...loadStops];
         newStops[editingStop.index] = values;
         setLoadStops(newStops);
       } else {
-        // Add new stop
         setLoadStops([...loadStops, values]);
       }
 
@@ -111,9 +106,25 @@ const LoadStopsStep = ({ loadStops, setLoadStops, form }) => {
 
   const getStopTypeTag = (type) => {
     return type === 0 ? (
-      <Tag color="blue">Pickup</Tag>
+      <Tag
+        style={{
+          border: "1px solid #d9d9d9",
+          background: "#f5f5f5",
+          color: "#595959",
+        }}
+      >
+        Alış
+      </Tag>
     ) : (
-      <Tag color="green">Delivery</Tag>
+      <Tag
+        style={{
+          border: "1px solid #d9d9d9",
+          background: "#f0f0f0",
+          color: "#595959",
+        }}
+      >
+        Teslimat
+      </Tag>
     );
   };
 
@@ -136,7 +147,7 @@ const LoadStopsStep = ({ loadStops, setLoadStops, form }) => {
         >
           <div>
             <h3 style={{ margin: 0, fontSize: "18px", fontWeight: "600" }}>
-              Load Stops
+              Yük Durakları
             </h3>
             <p
               style={{
@@ -145,7 +156,7 @@ const LoadStopsStep = ({ loadStops, setLoadStops, form }) => {
                 fontSize: "14px",
               }}
             >
-              Add pickup and delivery locations
+              Alış ve teslimat noktalarını ekleyin
             </p>
           </div>
           <Button
@@ -154,19 +165,18 @@ const LoadStopsStep = ({ loadStops, setLoadStops, form }) => {
             onClick={handleAddStop}
             style={{
               borderRadius: "8px",
-              background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+              background: "#111111",
               border: "none",
             }}
           >
-            Add Stop
+            Durak Ekle
           </Button>
         </div>
 
-        {/* Uyarı mesajı - Pickup yoksa göster */}
         {pickupCount === 0 && loadStops.length > 0 && (
           <Alert
-            message="En az bir Pickup durağı eklemelisiniz"
-            description="Delivery durağı eklemeden önce yük alma noktası belirlemeniz gerekmektedir."
+            message="En az bir alış durağı eklemelisiniz"
+            description="Teslimat durağı eklemeden önce yük alma noktası belirlemeniz gerekmektedir."
             type="warning"
             icon={<WarningOutlined />}
             showIcon
@@ -174,12 +184,11 @@ const LoadStopsStep = ({ loadStops, setLoadStops, form }) => {
           />
         )}
 
-        {/* Bilgi kartı */}
         {loadStops.length > 0 && (
           <div
             style={{
               padding: "12px 16px",
-              background: "#f0f5ff",
+              background: "#f5f5f5",
               borderRadius: "8px",
               marginBottom: "16px",
               display: "flex",
@@ -192,43 +201,43 @@ const LoadStopsStep = ({ loadStops, setLoadStops, form }) => {
                 style={{
                   fontSize: "20px",
                   fontWeight: "bold",
-                  color: "#1890ff",
+                  color: "#111111",
                 }}
               >
                 {pickupCount}
               </div>
-              <div style={{ fontSize: "12px", color: "#8c8c8c" }}>Pickup</div>
+              <div style={{ fontSize: "12px", color: "#8c8c8c" }}>Alış</div>
             </div>
             <div style={{ textAlign: "center" }}>
               <div
                 style={{
                   fontSize: "20px",
                   fontWeight: "bold",
-                  color: "#52c41a",
+                  color: "#444444",
                 }}
               >
                 {deliveryCount}
               </div>
-              <div style={{ fontSize: "12px", color: "#8c8c8c" }}>Delivery</div>
+              <div style={{ fontSize: "12px", color: "#8c8c8c" }}>Teslimat</div>
             </div>
             <div style={{ textAlign: "center" }}>
               <div
                 style={{
                   fontSize: "20px",
                   fontWeight: "bold",
-                  color: "#722ed1",
+                  color: "#777777",
                 }}
               >
                 {loadStops.length}
               </div>
-              <div style={{ fontSize: "12px", color: "#8c8c8c" }}>Total</div>
+              <div style={{ fontSize: "12px", color: "#8c8c8c" }}>Toplam</div>
             </div>
           </div>
         )}
 
         {loadStops.length === 0 ? (
           <Empty
-            description="No stops added yet"
+            description="Henüz durak eklenmedi"
             style={{ padding: "40px 0" }}
           />
         ) : (
@@ -275,12 +284,11 @@ const LoadStopsStep = ({ loadStops, setLoadStops, form }) => {
                         width: "40px",
                         height: "40px",
                         borderRadius: "50%",
-                        background:
-                          stop.stopType === 0 ? "#1890ff15" : "#52c41a15",
+                        background: "#f5f5f5",
                         display: "flex",
                         alignItems: "center",
                         justifyContent: "center",
-                        color: stop.stopType === 0 ? "#1890ff" : "#52c41a",
+                        color: "#333333",
                       }}
                     >
                       <EnvironmentOutlined style={{ fontSize: "18px" }} />
@@ -289,7 +297,7 @@ const LoadStopsStep = ({ loadStops, setLoadStops, form }) => {
                   title={
                     <Space>
                       <span style={{ fontWeight: "600" }}>
-                        Stop {index + 1}
+                        Durak {index + 1}
                       </span>
                       {getStopTypeTag(stop.stopType)}
                     </Space>
@@ -297,14 +305,14 @@ const LoadStopsStep = ({ loadStops, setLoadStops, form }) => {
                   description={
                     <div>
                       <div style={{ marginTop: "4px" }}>
-                        <strong>Address:</strong> {stop.address}
+                        <strong>Adres:</strong> {stop.address}
                       </div>
                       <div style={{ marginTop: "4px" }}>
-                        <strong>City:</strong> {stop.city}, {stop.district}
+                        <strong>Şehir:</strong> {stop.city}, {stop.district}
                       </div>
                       {stop.contactPersonName && (
                         <div style={{ marginTop: "4px" }}>
-                          <strong>Contact:</strong> {stop.contactPersonName}
+                          <strong>İletişim:</strong> {stop.contactPersonName}
                           {stop.contactPhone && ` - ${stop.contactPhone}`}
                         </div>
                       )}
@@ -318,7 +326,7 @@ const LoadStopsStep = ({ loadStops, setLoadStops, form }) => {
       </Card>
 
       <Modal
-        title={editingStop !== null ? "Edit Stop" : "Add New Stop"}
+        title={editingStop !== null ? "Durağı Düzenle" : "Yeni Durak Ekle"}
         open={isModalVisible}
         onOk={handleSaveStop}
         onCancel={() => {
@@ -326,12 +334,12 @@ const LoadStopsStep = ({ loadStops, setLoadStops, form }) => {
           stopForm.resetFields();
         }}
         width={700}
-        okText="Save"
-        cancelText="Cancel"
+        okText="Kaydet"
+        cancelText="İptal"
         okButtonProps={{
           style: {
             borderRadius: "8px",
-            background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+            background: "#111111",
             border: "none",
           },
         }}
@@ -344,21 +352,21 @@ const LoadStopsStep = ({ loadStops, setLoadStops, form }) => {
             <Col xs={24} md={12}>
               <Form.Item
                 name="stopType"
-                label="Stop Type"
-                rules={[{ required: true, message: "Please select stop type" }]}
+                label="Durak Türü"
+                rules={[{ required: true, message: "Lütfen durak türü seçin" }]}
               >
                 <Select
-                  placeholder="Select type"
+                  placeholder="Tür seçin"
                   size="large"
                   style={{ borderRadius: "8px" }}
                   disabled={pickupCount === 0 && editingStop === null}
                 >
-                  <Option value={0}>Pickup</Option>
+                  <Option value={0}>Alış</Option>
                   <Option
                     value={1}
                     disabled={pickupCount === 0 && editingStop === null}
                   >
-                    Delivery {pickupCount === 0 && "(First add a Pickup)"}
+                    Teslimat {pickupCount === 0 && "(Önce Alış Ekleyin)"}
                   </Option>
                 </Select>
               </Form.Item>
@@ -367,15 +375,15 @@ const LoadStopsStep = ({ loadStops, setLoadStops, form }) => {
             <Col xs={24}>
               <Form.Item
                 name="address"
-                label="Address"
+                label="Adres"
                 rules={[
-                  { required: true, message: "Please enter address" },
-                  { max: 500, message: "Address cannot exceed 500 characters" },
+                  { required: true, message: "Lütfen adres girin" },
+                  { max: 500, message: "Adres 500 karakteri geçemez" },
                 ]}
               >
                 <Input.TextArea
                   rows={2}
-                  placeholder="Full address"
+                  placeholder="Tam adres"
                   style={{ borderRadius: "8px" }}
                 />
               </Form.Item>
@@ -384,14 +392,14 @@ const LoadStopsStep = ({ loadStops, setLoadStops, form }) => {
             <Col xs={24} md={12}>
               <Form.Item
                 name="city"
-                label="City"
+                label="Şehir"
                 rules={[
-                  { required: true, message: "Please enter city" },
-                  { max: 100, message: "City cannot exceed 100 characters" },
+                  { required: true, message: "Lütfen şehir girin" },
+                  { max: 100, message: "Şehir 100 karakteri geçemez" },
                 ]}
               >
                 <Input
-                  placeholder="e.g., Istanbul"
+                  placeholder="Örn: İstanbul"
                   size="large"
                   style={{ borderRadius: "8px" }}
                 />
@@ -401,17 +409,17 @@ const LoadStopsStep = ({ loadStops, setLoadStops, form }) => {
             <Col xs={24} md={12}>
               <Form.Item
                 name="district"
-                label="District"
+                label="İlçe"
                 rules={[
-                  { required: true, message: "Please enter district" },
+                  { required: true, message: "Lütfen ilçe girin" },
                   {
                     max: 100,
-                    message: "District cannot exceed 100 characters",
+                    message: "İlçe 100 karakteri geçemez",
                   },
                 ]}
               >
                 <Input
-                  placeholder="e.g., Kadıköy"
+                  placeholder="Örn: Kadıköy"
                   size="large"
                   style={{ borderRadius: "8px" }}
                 />
@@ -421,13 +429,13 @@ const LoadStopsStep = ({ loadStops, setLoadStops, form }) => {
             <Col xs={24} md={12}>
               <Form.Item
                 name="contactPersonName"
-                label="Contact Person"
+                label="İletişim Kişisi"
                 rules={[
-                  { max: 100, message: "Name cannot exceed 100 characters" },
+                  { max: 100, message: "İsim 100 karakteri geçemez" },
                 ]}
               >
                 <Input
-                  placeholder="Contact name"
+                  placeholder="İletişim adı"
                   size="large"
                   style={{ borderRadius: "8px" }}
                 />
@@ -437,9 +445,9 @@ const LoadStopsStep = ({ loadStops, setLoadStops, form }) => {
             <Col xs={24} md={12}>
               <Form.Item
                 name="contactPhone"
-                label="Contact Phone"
+                label="İletişim Telefonu"
                 rules={[
-                  { max: 20, message: "Phone cannot exceed 20 characters" },
+                  { max: 20, message: "Telefon 20 karakteri geçemez" },
                 ]}
               >
                 <Input
@@ -453,10 +461,10 @@ const LoadStopsStep = ({ loadStops, setLoadStops, form }) => {
             <Col xs={24}>
               <Form.Item
                 name="country"
-                label="Country"
+                label="Ülke"
                 initialValue="Türkiye"
                 rules={[
-                  { max: 100, message: "Country cannot exceed 100 characters" },
+                  { max: 100, message: "Ülke 100 karakteri geçemez" },
                 ]}
               >
                 <Input size="large" style={{ borderRadius: "8px" }} />

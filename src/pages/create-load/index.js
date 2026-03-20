@@ -34,25 +34,24 @@ const CreateLoad = () => {
 
   const steps = [
     {
-      title: "Load Information",
+      title: "Yük Bilgileri",
       icon: <FileTextOutlined />,
-      description: "Basic load details",
+      description: "Temel yük detayları",
     },
     {
-      title: "Stops",
+      title: "Duraklar",
       icon: <EnvironmentOutlined />,
-      description: "Pickup & delivery locations",
+      description: "Alış ve teslimat noktaları",
     },
     {
-      title: "Review",
+      title: "İnceleme",
       icon: <CheckOutlined />,
-      description: "Confirm details",
+      description: "Bilgileri onayla",
     },
   ];
 
   const handleNext = async () => {
     try {
-      // Validate current step
       if (currentStep === 0) {
         await form.validateFields([
           "title",
@@ -65,20 +64,20 @@ const CreateLoad = () => {
         ]);
       } else if (currentStep === 1) {
         if (loadStops.length < 2) {
-          message.error("At least one pickup and one delivery stop required");
+          message.error("En az bir alış ve bir teslimat durağı gerekli");
           return;
         }
         const hasPickup = loadStops.some((stop) => stop.stopType === 0);
         const hasDelivery = loadStops.some((stop) => stop.stopType === 1);
         if (!hasPickup || !hasDelivery) {
-          message.error("Both pickup and delivery stops are required");
+          message.error("Hem alış hem teslimat durağı zorunludur");
           return;
         }
       }
 
       setCurrentStep(currentStep + 1);
     } catch (error) {
-      message.error("Please fill in all required fields");
+      message.error("Lütfen tüm zorunlu alanları doldurun");
     }
   };
 
@@ -90,7 +89,6 @@ const CreateLoad = () => {
     try {
       setLoading(true);
 
-      // Form değerlerini al - tüm alanları açıkça belirt
       const formValues = form.getFieldsValue([
         "title",
         "description",
@@ -130,13 +128,13 @@ const CreateLoad = () => {
       const response = await services.createLoad(loadData);
 
       if (response.isSuccess) {
-        message.success("Load created successfully!");
+        message.success("Yük başarıyla oluşturuldu!");
         navigate("/loads");
       } else {
-        message.error(response.message || "Failed to create load");
+        message.error(response.message || "Yük oluşturulamadı");
       }
     } catch (error) {
-      message.error("An error occurred while creating the load");
+      message.error("Yük oluşturulurken bir hata oluştu");
       console.error("Create load error:", error);
     } finally {
       setLoading(false);
@@ -182,10 +180,10 @@ const CreateLoad = () => {
                 margin: 0,
               }}
             >
-              Create New Load
+              Yeni Yük Oluştur
             </h1>
             <p style={{ color: "#8c8c8c", fontSize: "16px", marginTop: "8px" }}>
-              Fill in the details to create a new transportation load
+              Yeni bir nakliye yükü oluşturmak için bilgileri doldurun
             </p>
           </div>
 
@@ -235,7 +233,7 @@ const CreateLoad = () => {
                 size="large"
                 style={{ borderRadius: "8px" }}
               >
-                Cancel
+                İptal
               </Button>
 
               <Space>
@@ -245,7 +243,7 @@ const CreateLoad = () => {
                     size="large"
                     style={{ borderRadius: "8px" }}
                   >
-                    Previous
+                    Geri
                   </Button>
                 )}
 
@@ -256,12 +254,11 @@ const CreateLoad = () => {
                     size="large"
                     style={{
                       borderRadius: "8px",
-                      background:
-                        "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+                      background: "#111111",
                       border: "none",
                     }}
                   >
-                    Next
+                    İleri
                   </Button>
                 ) : (
                   <Button
@@ -271,12 +268,11 @@ const CreateLoad = () => {
                     size="large"
                     style={{
                       borderRadius: "8px",
-                      background:
-                        "linear-gradient(135deg, #52c41a 0%, #389e0d 100%)",
+                      background: "#111111",
                       border: "none",
                     }}
                   >
-                    Create Load
+                    Yük Oluştur
                   </Button>
                 )}
               </Space>

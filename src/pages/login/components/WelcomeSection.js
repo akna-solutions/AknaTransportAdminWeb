@@ -7,7 +7,7 @@ const WelcomeSection = () => {
     <div
       style={{
         height: "100vh",
-        background: "linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)",
+        background: "#111111",
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
@@ -24,8 +24,8 @@ const WelcomeSection = () => {
           right: 0,
           bottom: 0,
           background: `
-            linear-gradient(45deg, transparent 35%, rgba(255,255,255,0.1) 35%, rgba(255,255,255,0.1) 65%, transparent 65%),
-            linear-gradient(-45deg, transparent 35%, rgba(255,255,255,0.05) 35%, rgba(255,255,255,0.05) 65%, transparent 65%)
+            linear-gradient(45deg, transparent 35%, rgba(255,255,255,0.03) 35%, rgba(255,255,255,0.03) 65%, transparent 65%),
+            linear-gradient(-45deg, transparent 35%, rgba(255,255,255,0.02) 35%, rgba(255,255,255,0.02) 65%, transparent 65%)
           `,
           backgroundSize: "60px 60px",
         }}
@@ -45,14 +45,14 @@ const WelcomeSection = () => {
             style={{
               width: 60,
               height: 60,
-              background: "rgba(255,255,255,0.2)",
+              background: "rgba(255,255,255,0.1)",
               borderRadius: "12px",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
               margin: "0 auto 20px",
               backdropFilter: "blur(10px)",
-              border: "1px solid rgba(255,255,255,0.3)",
+              border: "1px solid rgba(255,255,255,0.2)",
             }}
           >
             <span style={{ fontSize: 24, fontWeight: "bold" }}>AK</span>
@@ -71,20 +71,19 @@ const WelcomeSection = () => {
             lineHeight: 1.2,
           }}
         >
-          Edit Smarter. Export Faster.
+          Daha Akıllı Yönet.
           <br />
-          Create Anywhere.
+          Daha Hızlı Ulaş.
         </Title>
 
         <Text
           style={{
-            color: "rgba(255,255,255,0.8)",
+            color: "rgba(255,255,255,0.7)",
             fontSize: 16,
             lineHeight: 1.6,
           }}
         >
-          From quick social media clips to full-length videos, our powerful
-          editor lets you work seamlessly across devices.
+          Filo yönetiminden yük takibine kadar tüm lojistik operasyonlarınızı tek platformdan kolayca yönetin.
         </Text>
       </div>
     </div>

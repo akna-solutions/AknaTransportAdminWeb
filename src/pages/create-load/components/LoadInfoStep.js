@@ -16,14 +16,14 @@ const LoadInfoStep = ({ form }) => {
         <Col xs={24}>
           <Form.Item
             name="title"
-            label="Load Title"
+            label="Yük Başlığı"
             rules={[
-              { required: true, message: "Please enter load title" },
-              { max: 200, message: "Title cannot exceed 200 characters" },
+              { required: true, message: "Lütfen yük başlığı girin" },
+              { max: 200, message: "Başlık 200 karakteri geçemez" },
             ]}
           >
             <Input
-              placeholder="e.g., Istanbul to Ankara Cargo"
+              placeholder="Örn: İstanbul'dan Ankara'ya Kargo"
               size="large"
               style={{ borderRadius: "8px" }}
             />
@@ -33,14 +33,14 @@ const LoadInfoStep = ({ form }) => {
         <Col xs={24}>
           <Form.Item
             name="description"
-            label="Description"
+            label="Açıklama"
             rules={[
-              { max: 1000, message: "Description cannot exceed 1000 characters" },
+              { max: 1000, message: "Açıklama 1000 karakteri geçemez" },
             ]}
           >
             <TextArea
               rows={4}
-              placeholder="Provide additional details about the load..."
+              placeholder="Yük hakkında ek detaylar girin..."
               style={{ borderRadius: "8px" }}
             />
           </Form.Item>
@@ -49,9 +49,9 @@ const LoadInfoStep = ({ form }) => {
         <Col xs={24} md={12}>
           <Form.Item
             name="weight"
-            label="Weight (kg)"
+            label="Ağırlık (kg)"
             rules={[
-              { type: "number", min: 0, message: "Weight must be positive" },
+              { type: "number", min: 0, message: "Ağırlık pozitif olmalı" },
             ]}
           >
             <InputNumber
@@ -67,9 +67,9 @@ const LoadInfoStep = ({ form }) => {
         <Col xs={24} md={12}>
           <Form.Item
             name="volume"
-            label="Volume (m³)"
+            label="Hacim (m³)"
             rules={[
-              { type: "number", min: 0, message: "Volume must be positive" },
+              { type: "number", min: 0, message: "Hacim pozitif olmalı" },
             ]}
           >
             <InputNumber
@@ -85,17 +85,17 @@ const LoadInfoStep = ({ form }) => {
         <Col xs={24}>
           <div
             style={{
-              background: "#f0f5ff",
+              background: "#f5f5f5",
               padding: "16px",
               borderRadius: "8px",
               marginBottom: "16px",
             }}
           >
-            <h4 style={{ margin: "0 0 12px 0", color: "#1890ff" }}>
-              Contact Information
+            <h4 style={{ margin: "0 0 12px 0", color: "#333333" }}>
+              İletişim Bilgileri
             </h4>
             <p style={{ margin: 0, color: "#595959", fontSize: "14px" }}>
-              Provide contact details for this load
+              Bu yük için iletişim bilgilerini girin
             </p>
           </div>
         </Col>
@@ -103,13 +103,13 @@ const LoadInfoStep = ({ form }) => {
         <Col xs={24} md={12}>
           <Form.Item
             name="contactPersonName"
-            label="Contact Person"
+            label="İletişim Kişisi"
             rules={[
-              { max: 100, message: "Name cannot exceed 100 characters" },
+              { max: 100, message: "İsim 100 karakteri geçemez" },
             ]}
           >
             <Input
-              placeholder="John Doe"
+              placeholder="Ahmet Yılmaz"
               size="large"
               style={{ borderRadius: "8px" }}
             />
@@ -119,12 +119,12 @@ const LoadInfoStep = ({ form }) => {
         <Col xs={24} md={12}>
           <Form.Item
             name="contactPhone"
-            label="Contact Phone"
+            label="İletişim Telefonu"
             rules={[
-              { max: 20, message: "Phone cannot exceed 20 characters" },
+              { max: 20, message: "Telefon 20 karakteri geçemez" },
               {
                 pattern: /^[0-9+\-() ]*$/,
-                message: "Invalid phone number format",
+                message: "Geçersiz telefon numarası formatı",
               },
             ]}
           >
@@ -139,14 +139,14 @@ const LoadInfoStep = ({ form }) => {
         <Col xs={24}>
           <Form.Item
             name="contactEmail"
-            label="Contact Email"
+            label="İletişim E-postası"
             rules={[
-              { type: "email", message: "Please enter a valid email" },
-              { max: 100, message: "Email cannot exceed 100 characters" },
+              { type: "email", message: "Lütfen geçerli bir e-posta girin" },
+              { max: 100, message: "E-posta 100 karakteri geçemez" },
             ]}
           >
             <Input
-              placeholder="contact@example.com"
+              placeholder="iletisim@example.com"
               size="large"
               style={{ borderRadius: "8px" }}
             />

@@ -26,7 +26,6 @@ import L from "leaflet";
 import LoadStatusTag from "./LoadStatusTag";
 import { services } from "../../../common/services";
 
-// Fix for default marker icon in React-Leaflet
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl:
@@ -37,13 +36,12 @@ L.Icon.Default.mergeOptions({
     "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
 });
 
-// Custom truck icon
 const truckIcon = new L.Icon({
   iconUrl:
     "data:image/svg+xml;base64," +
     btoa(`
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32">
-      <circle cx="12" cy="12" r="11" fill="#667eea" stroke="white" stroke-width="2"/>
+      <circle cx="12" cy="12" r="11" fill="#111111" stroke="white" stroke-width="2"/>
       <path d="M12 8l-4 4h3v4h2v-4h3z" fill="white"/>
     </svg>
   `),
@@ -52,7 +50,6 @@ const truckIcon = new L.Icon({
   popupAnchor: [0, -32],
 });
 
-// Component to handle map updates
 const MapUpdater = ({ center }) => {
   const map = useMap();
 
@@ -72,7 +69,6 @@ const LoadDetailsModal = ({ visible, load, onClose }) => {
   const [loadingLocation, setLoadingLocation] = useState(false);
   const intervalRef = useRef(null);
 
-  // Konum bilgisini çek
   const fetchLoadLocation = async () => {
     if (!load?.id) return;
 
@@ -90,7 +86,6 @@ const LoadDetailsModal = ({ visible, load, onClose }) => {
       }
     } catch (error) {
       console.error("Konum bilgisi alınamadı:", error);
-      // Sessizce hata yönetimi - kullanıcıya mesaj gösterme
     } finally {
       setLoadingLocation(false);
     }
@@ -98,20 +93,16 @@ const LoadDetailsModal = ({ visible, load, onClose }) => {
 
   useEffect(() => {
     if (visible && load?.id) {
-      // İlk yüklemede konum bilgisini al
       fetchLoadLocation();
 
-      // Clear any existing interval
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
       }
 
-      // Set up auto-refresh every 5 seconds
       intervalRef.current = setInterval(() => {
         fetchLoadLocation();
       }, 5000);
 
-      // Cleanup on unmount or when modal closes
       return () => {
         if (intervalRef.current) {
           clearInterval(intervalRef.current);
@@ -135,7 +126,6 @@ const LoadDetailsModal = ({ visible, load, onClose }) => {
     ? [...load.loadStops].sort((a, b) => a.stopOrder - b.stopOrder)
     : [];
 
-  // Konum bilgisi - önce API'den gelen güncel konum, yoksa load üzerindeki konum
   const locationData = currentLocation || {
     latitude: load.latitude,
     longitude: load.longitude,
@@ -144,14 +134,14 @@ const LoadDetailsModal = ({ visible, load, onClose }) => {
   const hasLocation = locationData?.latitude && locationData?.longitude;
   const mapCenter = hasLocation
     ? [parseFloat(locationData.latitude), parseFloat(locationData.longitude)]
-    : [39.9334, 32.8597]; // Default to Ankara, Turkey
+    : [39.9334, 32.8597];
 
   return (
     <Modal
       title={
         <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
           <span style={{ fontSize: "20px", fontWeight: "600" }}>
-            Load Details
+            Yük Detayları
           </span>
           <LoadStatusTag status={getLoadStatus()} />
         </div>
@@ -163,9 +153,9 @@ const LoadDetailsModal = ({ visible, load, onClose }) => {
       style={{ top: 20 }}
     >
       <div style={{ maxHeight: "calc(100vh - 200px)", overflowY: "auto" }}>
-        {/* Basic Information */}
+        {/* Temel Bilgiler */}
         <Card
-          title="Basic Information"
+          title="Temel Bilgiler"
           style={{
             marginBottom: "24px",
             borderRadius: "12px",
@@ -174,31 +164,31 @@ const LoadDetailsModal = ({ visible, load, onClose }) => {
           headStyle={{ background: "#fafafa", fontWeight: "600" }}
         >
           <Descriptions column={{ xs: 1, sm: 2 }} bordered>
-            <Descriptions.Item label="Title" span={2}>
+            <Descriptions.Item label="Başlık" span={2}>
               <strong>{load.title}</strong>
             </Descriptions.Item>
             {load.description && (
-              <Descriptions.Item label="Description" span={2}>
+              <Descriptions.Item label="Açıklama" span={2}>
                 {load.description}
               </Descriptions.Item>
             )}
-            <Descriptions.Item label="Weight">
-              {load.weight ? `${load.weight} kg` : "N/A"}
+            <Descriptions.Item label="Ağırlık">
+              {load.weight ? `${load.weight} kg` : "—"}
             </Descriptions.Item>
-            <Descriptions.Item label="Volume">
-              {load.volume ? `${load.volume} m³` : "N/A"}
+            <Descriptions.Item label="Hacim">
+              {load.volume ? `${load.volume} m³` : "—"}
             </Descriptions.Item>
             {load.totalDistanceKm && (
-              <Descriptions.Item label="Total Distance" span={2}>
+              <Descriptions.Item label="Toplam Mesafe" span={2}>
                 {load.totalDistanceKm} km
               </Descriptions.Item>
             )}
           </Descriptions>
         </Card>
 
-        {/* Contact Information */}
+        {/* İletişim Bilgileri */}
         <Card
-          title="Contact Information"
+          title="İletişim Bilgileri"
           style={{
             marginBottom: "24px",
             borderRadius: "12px",
@@ -210,37 +200,37 @@ const LoadDetailsModal = ({ visible, load, onClose }) => {
             <Descriptions.Item
               label={
                 <span>
-                  <UserOutlined /> Contact Person
+                  <UserOutlined /> İletişim Kişisi
                 </span>
               }
             >
-              {load.contactPersonName || "N/A"}
+              {load.contactPersonName || "—"}
             </Descriptions.Item>
             <Descriptions.Item
               label={
                 <span>
-                  <PhoneOutlined /> Phone
+                  <PhoneOutlined /> Telefon
                 </span>
               }
             >
-              {load.contactPhone || "N/A"}
+              {load.contactPhone || "—"}
             </Descriptions.Item>
             <Descriptions.Item
               label={
                 <span>
-                  <MailOutlined /> Email
+                  <MailOutlined /> E-posta
                 </span>
               }
               span={2}
             >
-              {load.contactEmail || "N/A"}
+              {load.contactEmail || "—"}
             </Descriptions.Item>
           </Descriptions>
         </Card>
 
-        {/* Timeline Information */}
+        {/* Zaman Çizelgesi */}
         <Card
-          title="Timeline"
+          title="Zaman Çizelgesi"
           style={{
             marginBottom: "24px",
             borderRadius: "12px",
@@ -256,10 +246,10 @@ const LoadDetailsModal = ({ visible, load, onClose }) => {
                 <CalendarOutlined style={{ color: "#8c8c8c" }} />
                 <div>
                   <div style={{ fontSize: "12px", color: "#8c8c8c" }}>
-                    Created
+                    Oluşturulma
                   </div>
                   <div style={{ fontWeight: "500" }}>
-                    {new Date(load.createdDate).toLocaleString()}
+                    {new Date(load.createdDate).toLocaleString("tr-TR")}
                   </div>
                 </div>
               </div>
@@ -269,13 +259,13 @@ const LoadDetailsModal = ({ visible, load, onClose }) => {
                 <div
                   style={{ display: "flex", alignItems: "center", gap: "8px" }}
                 >
-                  <CalendarOutlined style={{ color: "#1890ff" }} />
+                  <CalendarOutlined style={{ color: "#555555" }} />
                   <div>
                     <div style={{ fontSize: "12px", color: "#8c8c8c" }}>
-                      Published
+                      Yayınlanma
                     </div>
                     <div style={{ fontWeight: "500" }}>
-                      {new Date(load.publishedAt).toLocaleString()}
+                      {new Date(load.publishedAt).toLocaleString("tr-TR")}
                     </div>
                   </div>
                 </div>
@@ -286,13 +276,13 @@ const LoadDetailsModal = ({ visible, load, onClose }) => {
                 <div
                   style={{ display: "flex", alignItems: "center", gap: "8px" }}
                 >
-                  <CalendarOutlined style={{ color: "#faad14" }} />
+                  <CalendarOutlined style={{ color: "#777777" }} />
                   <div>
                     <div style={{ fontSize: "12px", color: "#8c8c8c" }}>
-                      Matched
+                      Eşleştirilme
                     </div>
                     <div style={{ fontWeight: "500" }}>
-                      {new Date(load.matchedAt).toLocaleString()}
+                      {new Date(load.matchedAt).toLocaleString("tr-TR")}
                     </div>
                   </div>
                 </div>
@@ -303,13 +293,13 @@ const LoadDetailsModal = ({ visible, load, onClose }) => {
                 <div
                   style={{ display: "flex", alignItems: "center", gap: "8px" }}
                 >
-                  <CalendarOutlined style={{ color: "#52c41a" }} />
+                  <CalendarOutlined style={{ color: "#333333" }} />
                   <div>
                     <div style={{ fontSize: "12px", color: "#8c8c8c" }}>
-                      Completed
+                      Tamamlanma
                     </div>
                     <div style={{ fontWeight: "500" }}>
-                      {new Date(load.completedAt).toLocaleString()}
+                      {new Date(load.completedAt).toLocaleString("tr-TR")}
                     </div>
                   </div>
                 </div>
@@ -318,7 +308,7 @@ const LoadDetailsModal = ({ visible, load, onClose }) => {
           </Row>
         </Card>
 
-        {/* Current Location Map */}
+        {/* Güncel Konum Haritası */}
         {hasLocation && (
           <Card
             title={
@@ -329,7 +319,7 @@ const LoadDetailsModal = ({ visible, load, onClose }) => {
                   alignItems: "center",
                 }}
               >
-                <span>Current Location</span>
+                <span>Güncel Konum</span>
                 <div
                   style={{
                     display: "flex",
@@ -345,8 +335,8 @@ const LoadDetailsModal = ({ visible, load, onClose }) => {
                     <ReloadOutlined spin />
                   )}
                   <span>
-                    Auto-refresh • Last updated:{" "}
-                    {lastUpdate.toLocaleTimeString()}
+                    Otomatik güncelleme • Son güncelleme:{" "}
+                    {lastUpdate.toLocaleTimeString("tr-TR")}
                   </span>
                 </div>
               </div>
@@ -362,24 +352,24 @@ const LoadDetailsModal = ({ visible, load, onClose }) => {
               style={{
                 marginBottom: "16px",
                 padding: "12px",
-                background: "#f0f5ff",
+                background: "#f5f5f5",
                 borderRadius: "8px",
               }}
             >
               <Row gutter={16}>
                 <Col span={12}>
                   <div style={{ fontSize: "12px", color: "#8c8c8c" }}>
-                    Latitude
+                    Enlem
                   </div>
-                  <div style={{ fontWeight: "600", color: "#1890ff" }}>
+                  <div style={{ fontWeight: "600", color: "#111111" }}>
                     {locationData.latitude}
                   </div>
                 </Col>
                 <Col span={12}>
                   <div style={{ fontSize: "12px", color: "#8c8c8c" }}>
-                    Longitude
+                    Boylam
                   </div>
-                  <div style={{ fontWeight: "600", color: "#1890ff" }}>
+                  <div style={{ fontWeight: "600", color: "#111111" }}>
                     {locationData.longitude}
                   </div>
                 </Col>
@@ -417,8 +407,8 @@ const LoadDetailsModal = ({ visible, load, onClose }) => {
                           color: "#595959",
                         }}
                       >
-                        <div>Lat: {locationData.latitude}</div>
-                        <div>Lng: {locationData.longitude}</div>
+                        <div>Enlem: {locationData.latitude}</div>
+                        <div>Boylam: {locationData.longitude}</div>
                       </div>
                       <div style={{ marginTop: "8px" }}>
                         <LoadStatusTag status={getLoadStatus()} />
@@ -433,10 +423,10 @@ const LoadDetailsModal = ({ visible, load, onClose }) => {
               style={{
                 marginTop: "12px",
                 padding: "8px 12px",
-                background: "#fff7e6",
+                background: "#f5f5f5",
                 borderRadius: "6px",
                 fontSize: "12px",
-                color: "#faad14",
+                color: "#666666",
                 display: "flex",
                 alignItems: "center",
                 gap: "8px",
@@ -444,13 +434,13 @@ const LoadDetailsModal = ({ visible, load, onClose }) => {
             >
               <EnvironmentOutlined />
               <span>
-                Map auto-refreshes every 5 seconds to show real-time location
+                Harita gerçek zamanlı konumu göstermek için 5 saniyede bir otomatik güncellenir
               </span>
             </div>
           </Card>
         )}
 
-        {/* Load Stops */}
+        {/* Yük Durakları */}
         <Card
           title={
             <div
@@ -460,8 +450,16 @@ const LoadDetailsModal = ({ visible, load, onClose }) => {
                 alignItems: "center",
               }}
             >
-              <span>Load Stops</span>
-              <Tag color="blue">{sortedStops.length} Stops</Tag>
+              <span>Yük Durakları</span>
+              <Tag
+                style={{
+                  border: "1px solid #e8e8e8",
+                  background: "#f5f5f5",
+                  color: "#595959",
+                }}
+              >
+                {sortedStops.length} Durak
+              </Tag>
             </div>
           }
           style={{
@@ -472,7 +470,7 @@ const LoadDetailsModal = ({ visible, load, onClose }) => {
           headStyle={{ background: "#fafafa", fontWeight: "600" }}
         >
           {sortedStops.length === 0 ? (
-            <Empty description="No stops added" />
+            <Empty description="Durak eklenmemiş" />
           ) : (
             <Timeline
               items={sortedStops.map((stop, index) => ({
@@ -482,15 +480,12 @@ const LoadDetailsModal = ({ visible, load, onClose }) => {
                       width: "32px",
                       height: "32px",
                       borderRadius: "50%",
-                      backgroundColor:
-                        stop.stopType === 0 ? "#1890ff15" : "#52c41a15",
+                      backgroundColor: "#f5f5f5",
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
-                      color: stop.stopType === 0 ? "#1890ff" : "#52c41a",
-                      border: `2px solid ${
-                        stop.stopType === 0 ? "#1890ff" : "#52c41a"
-                      }`,
+                      color: "#333333",
+                      border: "2px solid #d9d9d9",
                     }}
                   >
                     {stop.stopType === 0 ? (
@@ -511,30 +506,42 @@ const LoadDetailsModal = ({ visible, load, onClose }) => {
                       }}
                     >
                       <strong style={{ fontSize: "16px" }}>
-                        Stop {index + 1}
+                        Durak {index + 1}
                       </strong>
-                      <Tag color={stop.stopType === 0 ? "blue" : "green"}>
-                        {stop.stopType === 0 ? "Pickup" : "Delivery"}
+                      <Tag
+                        style={{
+                          border: "1px solid #e8e8e8",
+                          background: "#f5f5f5",
+                          color: "#595959",
+                        }}
+                      >
+                        {stop.stopType === 0 ? "Alış" : "Teslimat"}
                       </Tag>
                       {stop.completedAt && (
-                        <Tag color="success">
-                          Completed{" "}
-                          {new Date(stop.completedAt).toLocaleDateString()}
+                        <Tag
+                          style={{
+                            border: "1px solid #e8e8e8",
+                            background: "#f0f0f0",
+                            color: "#333333",
+                          }}
+                        >
+                          Tamamlandı{" "}
+                          {new Date(stop.completedAt).toLocaleDateString("tr-TR")}
                         </Tag>
                       )}
                     </div>
 
                     <div style={{ color: "#595959", lineHeight: "1.8" }}>
                       <div>
-                        <strong>Address:</strong> {stop.address}
+                        <strong>Adres:</strong> {stop.address}
                       </div>
                       <div>
-                        <strong>Location:</strong> {stop.city}, {stop.district},{" "}
+                        <strong>Konum:</strong> {stop.city}, {stop.district},{" "}
                         {stop.country}
                       </div>
                       {stop.contactPersonName && (
                         <div>
-                          <strong>Contact:</strong> {stop.contactPersonName}
+                          <strong>İletişim:</strong> {stop.contactPersonName}
                           {stop.contactPhone && ` - ${stop.contactPhone}`}
                         </div>
                       )}

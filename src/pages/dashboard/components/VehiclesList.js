@@ -53,7 +53,7 @@ const VehiclesList = () => {
         total: response?.length || 0,
       }));
     } catch (error) {
-      message.error("Failed to load vehicles");
+      message.error("Araçlar yüklenemedi");
       console.error("Error fetching vehicles:", error);
     } finally {
       setLoading(false);
@@ -62,19 +62,19 @@ const VehiclesList = () => {
 
   const handleDelete = (vehicleId, plateNumber) => {
     confirm({
-      title: "Delete Vehicle",
+      title: "Araç Sil",
       icon: <ExclamationCircleOutlined />,
-      content: `Are you sure you want to delete vehicle "${plateNumber}"?`,
-      okText: "Yes, Delete",
+      content: `"${plateNumber}" plakalı aracı silmek istediğinize emin misiniz?`,
+      okText: "Evet, Sil",
       okType: "danger",
-      cancelText: "Cancel",
+      cancelText: "İptal",
       onOk: async () => {
         try {
           await services.deleteVehicle(vehicleId);
-          message.success("Vehicle deleted successfully");
+          message.success("Araç başarıyla silindi");
           fetchVehicles(pagination.current, pagination.pageSize);
         } catch (error) {
-          message.error("Failed to delete vehicle");
+          message.error("Araç silinemedi");
           console.error("Error deleting vehicle:", error);
         }
       },
@@ -83,54 +83,60 @@ const VehiclesList = () => {
 
   const getVehicleTypeText = (type) => {
     const types = {
-      1: "Truck",
-      2: "Van",
-      3: "Container",
-      4: "Trailer",
+      1: "Kamyon",
+      2: "Kamyonet",
+      3: "Konteyner",
+      4: "Dorse",
       5: "Tanker",
     };
-    return types[type] || "Unknown";
+    return types[type] || "Bilinmiyor";
   };
 
   const getVehicleStatusTag = (status) => {
     const statusConfig = {
-      1: { color: "success", text: "Available" },
-      2: { color: "processing", text: "In Transit" },
-      3: { color: "warning", text: "Maintenance" },
-      4: { color: "error", text: "Out of Service" },
-      5: { color: "default", text: "Inactive" },
+      1: { text: "Müsait" },
+      2: { text: "Yolda" },
+      3: { text: "Bakımda" },
+      4: { text: "Hizmet Dışı" },
+      5: { text: "Pasif" },
     };
 
-    const config = statusConfig[status] || {
-      color: "default",
-      text: "Unknown",
-    };
-    return <Tag color={config.color}>{config.text}</Tag>;
+    const config = statusConfig[status] || { text: "Bilinmiyor" };
+    return (
+      <Tag
+        style={{
+          border: "1px solid #e8e8e8",
+          background: "#f5f5f5",
+          color: "#595959",
+          borderRadius: "4px",
+        }}
+      >
+        {config.text}
+      </Tag>
+    );
   };
 
   const getActionItems = (record) => [
     {
       key: "view",
       icon: <EyeOutlined />,
-      label: "View Details",
+      label: "Detayları Gör",
       onClick: () => {
-        // Handle view vehicle details
-        message.info("View vehicle details functionality");
+        message.info("Araç detayları işlevi");
       },
     },
     {
       key: "edit",
       icon: <EditOutlined />,
-      label: "Edit Vehicle",
+      label: "Düzenle",
       onClick: () => {
-        // Handle edit vehicle
-        message.info("Edit vehicle functionality");
+        message.info("Araç düzenleme işlevi");
       },
     },
     {
       key: "delete",
       icon: <DeleteOutlined />,
-      label: "Delete Vehicle",
+      label: "Sil",
       danger: true,
       onClick: () => handleDelete(record.id, record.plateNumber),
     },
@@ -138,7 +144,7 @@ const VehiclesList = () => {
 
   const columns = [
     {
-      title: "Vehicle",
+      title: "Araç",
       dataIndex: "plateNumber",
       key: "plateNumber",
       render: (plateNumber, record) => (
@@ -148,11 +154,11 @@ const VehiclesList = () => {
               width: "40px",
               height: "40px",
               borderRadius: "8px",
-              backgroundColor: "#667eea15",
+              backgroundColor: "#f5f5f5",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              color: "#667eea",
+              color: "#111111",
             }}
           >
             <CarOutlined style={{ fontSize: "18px" }} />
@@ -169,37 +175,47 @@ const VehiclesList = () => {
       ),
     },
     {
-      title: "Type",
+      title: "Tür",
       dataIndex: "vehicleType",
       key: "vehicleType",
-      render: (type) => <Tag color="blue">{getVehicleTypeText(type)}</Tag>,
+      render: (type) => (
+        <Tag
+          style={{
+            border: "1px solid #e8e8e8",
+            background: "#f5f5f5",
+            color: "#595959",
+          }}
+        >
+          {getVehicleTypeText(type)}
+        </Tag>
+      ),
     },
     {
-      title: "Status",
+      title: "Durum",
       dataIndex: "status",
       key: "status",
       render: (status) => getVehicleStatusTag(status),
     },
     {
-      title: "Capacity",
+      title: "Kapasite",
       dataIndex: "payloadCapacity",
       key: "payloadCapacity",
-      render: (capacity) => (capacity ? `${capacity} kg` : "N/A"),
+      render: (capacity) => (capacity ? `${capacity} kg` : "—"),
     },
     {
-      title: "Location",
+      title: "Konum",
       key: "location",
       render: (_, record) => (
         <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
           <EnvironmentOutlined style={{ color: "#8c8c8c" }} />
           <span style={{ color: "#8c8c8c", fontSize: "12px" }}>
-            {record.lastKnownLat && record.lastKnownLng ? "Located" : "Unknown"}
+            {record.lastKnownLat && record.lastKnownLng ? "Konumlu" : "Bilinmiyor"}
           </span>
         </div>
       ),
     },
     {
-      title: "Actions",
+      title: "İşlem",
       key: "actions",
       width: 60,
       render: (_, record) => (
@@ -242,10 +258,13 @@ const VehiclesList = () => {
           }}
         >
           <span style={{ fontSize: "18px", fontWeight: "600" }}>
-            Recent Vehicles
+            Son Araçlar
           </span>
-          <Button type="primary" size="small">
-            View All
+          <Button
+            size="small"
+            style={{ borderRadius: "6px", borderColor: "#111111", color: "#111111" }}
+          >
+            Tümünü Gör
           </Button>
         </div>
       }
@@ -265,7 +284,7 @@ const VehiclesList = () => {
           showSizeChanger: false,
           showQuickJumper: false,
           showTotal: (total, range) =>
-            `${range[0]}-${range[1]} of ${total} vehicles`,
+            `${range[0]}-${range[1]} / ${total} araç`,
         }}
         onChange={handleTableChange}
         rowKey="id"

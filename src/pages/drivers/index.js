@@ -22,7 +22,6 @@ import {
   EditOutlined,
   DeleteOutlined,
   MoreOutlined,
-  UserOutlined,
   MailOutlined,
   PhoneOutlined,
   CheckCircleOutlined,
@@ -72,7 +71,7 @@ const Drivers = () => {
         total: response?.length || 0,
       }));
     } catch (error) {
-      message.error("Failed to load users");
+      message.error("Kullanıcılar yüklenemedi");
       console.error("Error fetching users:", error);
     } finally {
       setLoading(false);
@@ -95,19 +94,19 @@ const Drivers = () => {
 
   const handleDelete = (userId, userName) => {
     confirm({
-      title: "Delete User",
+      title: "Kullanıcı Sil",
       icon: <ExclamationCircleOutlined />,
-      content: `Are you sure you want to delete user "${userName}"?`,
-      okText: "Yes, Delete",
+      content: `"${userName}" kullanıcısını silmek istediğinize emin misiniz?`,
+      okText: "Evet, Sil",
       okType: "danger",
-      cancelText: "Cancel",
+      cancelText: "İptal",
       onOk: async () => {
         try {
           await services.deleteUser(userId);
-          message.success("User deleted successfully");
+          message.success("Kullanıcı başarıyla silindi");
           fetchUsers(pagination.current, pagination.pageSize);
         } catch (error) {
-          message.error("Failed to delete user");
+          message.error("Kullanıcı silinemedi");
         }
       },
     });
@@ -115,36 +114,46 @@ const Drivers = () => {
 
   const getUserTypeTag = (type) => {
     const types = {
-      1: { color: "blue", text: "Company Employee" },
-      2: { color: "green", text: "Driver" },
-      99: { color: "gold", text: "System Admin" },
+      1: { text: "Şirket Çalışanı" },
+      2: { text: "Sürücü" },
+      99: { text: "Sistem Yöneticisi" },
     };
 
-    const config = types[type] || { color: "default", text: "Unknown" };
-    return <Tag color={config.color}>{config.text}</Tag>;
+    const config = types[type] || { text: "Bilinmiyor" };
+    return (
+      <Tag
+        style={{
+          border: "1px solid #e8e8e8",
+          background: "#f5f5f5",
+          color: "#595959",
+        }}
+      >
+        {config.text}
+      </Tag>
+    );
   };
 
   const getGenderText = (gender) => {
-    return gender === 1 ? "Male" : gender === 2 ? "Female" : "N/A";
+    return gender === 1 ? "Erkek" : gender === 2 ? "Kadın" : "—";
   };
 
   const getActionItems = (record) => [
     {
       key: "view",
       icon: <EyeOutlined />,
-      label: "View Profile",
-      onClick: () => message.info("View profile functionality"),
+      label: "Profili Gör",
+      onClick: () => message.info("Profil görüntüleme işlevi"),
     },
     {
       key: "edit",
       icon: <EditOutlined />,
-      label: "Edit User",
-      onClick: () => message.info("Edit user functionality"),
+      label: "Düzenle",
+      onClick: () => message.info("Kullanıcı düzenleme işlevi"),
     },
     {
       key: "delete",
       icon: <DeleteOutlined />,
-      label: "Delete User",
+      label: "Sil",
       danger: true,
       onClick: () =>
         handleDelete(record.id, `${record.name} ${record.surname}`),
@@ -153,7 +162,7 @@ const Drivers = () => {
 
   const columns = [
     {
-      title: "User",
+      title: "Kullanıcı",
       dataIndex: "name",
       key: "name",
       fixed: "left",
@@ -163,7 +172,7 @@ const Drivers = () => {
           <Avatar
             size={48}
             style={{
-              backgroundColor: "#667eea",
+              backgroundColor: "#111111",
               color: "white",
               fontWeight: "bold",
               fontSize: "18px",
@@ -184,7 +193,7 @@ const Drivers = () => {
       ),
     },
     {
-      title: "Contact",
+      title: "İletişim",
       key: "contact",
       width: 280,
       render: (_, record) => (
@@ -202,11 +211,11 @@ const Drivers = () => {
             <span style={{ flex: 1 }}>{record.email}</span>
             {record.isEmailConfirmed ? (
               <CheckCircleOutlined
-                style={{ color: "#52c41a", fontSize: "16px" }}
+                style={{ color: "#333333", fontSize: "16px" }}
               />
             ) : (
               <CloseCircleOutlined
-                style={{ color: "#ff4d4f", fontSize: "16px" }}
+                style={{ color: "#999999", fontSize: "16px" }}
               />
             )}
           </div>
@@ -224,11 +233,11 @@ const Drivers = () => {
               <span style={{ flex: 1 }}>{record.phoneNumber}</span>
               {record.isPhoneNumberConfirmed ? (
                 <CheckCircleOutlined
-                  style={{ color: "#52c41a", fontSize: "16px" }}
+                  style={{ color: "#333333", fontSize: "16px" }}
                 />
               ) : (
                 <CloseCircleOutlined
-                  style={{ color: "#ff4d4f", fontSize: "16px" }}
+                  style={{ color: "#999999", fontSize: "16px" }}
                 />
               )}
             </div>
@@ -237,14 +246,14 @@ const Drivers = () => {
       ),
     },
     {
-      title: "Type",
+      title: "Tür",
       dataIndex: "userType",
       key: "userType",
       width: 180,
       render: (type) => getUserTypeTag(type),
     },
     {
-      title: "Gender",
+      title: "Cinsiyet",
       dataIndex: "gender",
       key: "gender",
       width: 100,
@@ -255,29 +264,36 @@ const Drivers = () => {
       ),
     },
     {
-      title: "TC Number",
+      title: "TC Kimlik No",
       dataIndex: "turkishRepublicIdNumber",
       key: "turkishRepublicIdNumber",
       width: 140,
       render: (tc) => (
         <span style={{ fontFamily: "monospace", fontSize: "13px" }}>
-          {tc || "N/A"}
+          {tc || "—"}
         </span>
       ),
     },
     {
-      title: "Blood Type",
+      title: "Kan Grubu",
       dataIndex: "bloodType",
       key: "bloodType",
       width: 100,
       render: (bloodType) => (
-        <Tag color="red" style={{ margin: 0 }}>
-          {bloodType || "N/A"}
+        <Tag
+          style={{
+            margin: 0,
+            border: "1px solid #e8e8e8",
+            background: "#f5f5f5",
+            color: "#595959",
+          }}
+        >
+          {bloodType || "—"}
         </Tag>
       ),
     },
     {
-      title: "Status",
+      title: "Durum",
       key: "status",
       width: 120,
       render: (_, record) => {
@@ -286,13 +302,13 @@ const Drivers = () => {
         return (
           <Badge
             status={isVerified ? "success" : "warning"}
-            text={isVerified ? "Verified" : "Pending"}
+            text={isVerified ? "Doğrulandı" : "Bekliyor"}
           />
         );
       },
     },
     {
-      title: "Actions",
+      title: "İşlem",
       key: "actions",
       fixed: "right",
       width: 80,
@@ -345,7 +361,7 @@ const Drivers = () => {
                   margin: 0,
                 }}
               >
-                Drivers & Employees
+                Sürücüler ve Çalışanlar
               </h1>
               <p
                 style={{
@@ -355,7 +371,7 @@ const Drivers = () => {
                   margin: 0,
                 }}
               >
-                Manage your team members
+                Ekip üyelerinizi yönetin
               </p>
             </div>
             <Button
@@ -364,13 +380,13 @@ const Drivers = () => {
               size="large"
               style={{
                 borderRadius: "8px",
-                background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+                background: "#111111",
                 border: "none",
                 height: "48px",
               }}
-              onClick={() => message.info("Add user functionality")}
+              onClick={() => message.info("Kullanıcı ekleme işlevi")}
             >
-              Add User
+              Kullanıcı Ekle
             </Button>
           </div>
 
@@ -386,7 +402,7 @@ const Drivers = () => {
             <Row gutter={[16, 16]}>
               <Col xs={24} sm={12} md={6}>
                 <Input
-                  placeholder="Search by name"
+                  placeholder="İsme göre ara"
                   prefix={<SearchOutlined />}
                   value={filters.name}
                   onChange={(e) =>
@@ -398,7 +414,7 @@ const Drivers = () => {
               </Col>
               <Col xs={24} sm={12} md={6}>
                 <Input
-                  placeholder="Search by email"
+                  placeholder="E-postaya göre ara"
                   prefix={<MailOutlined />}
                   value={filters.email}
                   onChange={(e) =>
@@ -410,7 +426,7 @@ const Drivers = () => {
               </Col>
               <Col xs={24} sm={12} md={5}>
                 <Select
-                  placeholder="User Type"
+                  placeholder="Kullanıcı Türü"
                   value={filters.userType}
                   onChange={(value) =>
                     setFilters({ ...filters, userType: value })
@@ -419,14 +435,14 @@ const Drivers = () => {
                   size="large"
                   allowClear
                 >
-                  <Option value={1}>Company Employee</Option>
-                  <Option value={2}>Driver</Option>
-                  <Option value={99}>System Admin</Option>
+                  <Option value={1}>Şirket Çalışanı</Option>
+                  <Option value={2}>Sürücü</Option>
+                  <Option value={99}>Sistem Yöneticisi</Option>
                 </Select>
               </Col>
               <Col xs={24} sm={12} md={4}>
                 <Select
-                  placeholder="Verification"
+                  placeholder="Doğrulama"
                   value={filters.isEmailConfirmed}
                   onChange={(value) =>
                     setFilters({ ...filters, isEmailConfirmed: value })
@@ -435,8 +451,8 @@ const Drivers = () => {
                   size="large"
                   allowClear
                 >
-                  <Option value={true}>Verified</Option>
-                  <Option value={false}>Pending</Option>
+                  <Option value={true}>Doğrulandı</Option>
+                  <Option value={false}>Bekliyor</Option>
                 </Select>
               </Col>
               <Col xs={24} sm={12} md={3}>
@@ -446,16 +462,16 @@ const Drivers = () => {
                     icon={<SearchOutlined />}
                     onClick={handleSearch}
                     size="large"
-                    style={{ borderRadius: "8px" }}
+                    style={{ borderRadius: "8px", background: "#111111", border: "none" }}
                   >
-                    Search
+                    Ara
                   </Button>
                   <Button
                     onClick={handleReset}
                     size="large"
                     style={{ borderRadius: "8px" }}
                   >
-                    Reset
+                    Temizle
                   </Button>
                 </Space>
               </Col>
@@ -478,7 +494,7 @@ const Drivers = () => {
                 ...pagination,
                 showSizeChanger: true,
                 showTotal: (total, range) =>
-                  `${range[0]}-${range[1]} of ${total} users`,
+                  `${range[0]}-${range[1]} / ${total} kullanıcı`,
               }}
               onChange={(newPagination) => {
                 fetchUsers(newPagination.current, newPagination.pageSize);

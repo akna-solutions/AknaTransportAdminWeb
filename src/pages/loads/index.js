@@ -85,7 +85,7 @@ const Loads = () => {
         total: response?.length || 0,
       }));
     } catch (error) {
-      message.error("Failed to load loads");
+      message.error("Yükler yüklenemedi");
       console.error("Error fetching loads:", error);
     } finally {
       setLoading(false);
@@ -118,19 +118,19 @@ const Loads = () => {
 
   const handleDelete = (loadId, loadTitle) => {
     confirm({
-      title: "Delete Load",
+      title: "Yük Sil",
       icon: <ExclamationCircleOutlined />,
-      content: `Are you sure you want to delete load "${loadTitle}"?`,
-      okText: "Yes, Delete",
+      content: `"${loadTitle}" yükünü silmek istediğinize emin misiniz?`,
+      okText: "Evet, Sil",
       okType: "danger",
-      cancelText: "Cancel",
+      cancelText: "İptal",
       onOk: async () => {
         try {
           await services.deleteLoad(loadId, userInfo.userId);
-          message.success("Load deleted successfully");
+          message.success("Yük başarıyla silindi");
           fetchLoads(pagination.current, pagination.pageSize);
         } catch (error) {
-          message.error("Failed to delete load");
+          message.error("Yük silinemedi");
         }
       },
     });
@@ -178,7 +178,7 @@ const Loads = () => {
 
   const columns = [
     {
-      title: "Load",
+      title: "Yük",
       dataIndex: "title",
       key: "title",
       fixed: "left",
@@ -208,41 +208,41 @@ const Loads = () => {
       ),
     },
     {
-      title: "Status",
+      title: "Durum",
       key: "status",
       width: 120,
       render: (_, record) => <LoadStatusTag status={getLoadStatus(record)} />,
     },
     {
-      title: "Stops",
+      title: "Duraklar",
       key: "stops",
       width: 300,
       render: (_, record) => <LoadStopsColumn stops={record.loadStops || []} />,
     },
     {
-      title: "Weight / Volume",
+      title: "Ağırlık / Hacim",
       key: "specs",
       width: 150,
       render: (_, record) => (
         <div style={{ fontSize: "13px" }}>
           {record.weight && (
             <div>
-              <strong>Weight:</strong> {record.weight} kg
+              <strong>Ağırlık:</strong> {record.weight} kg
             </div>
           )}
           {record.volume && (
             <div>
-              <strong>Volume:</strong> {record.volume} m³
+              <strong>Hacim:</strong> {record.volume} m³
             </div>
           )}
           {!record.weight && !record.volume && (
-            <span style={{ color: "#8c8c8c" }}>N/A</span>
+            <span style={{ color: "#8c8c8c" }}>—</span>
           )}
         </div>
       ),
     },
     {
-      title: "Contact",
+      title: "İletişim",
       key: "contact",
       width: 200,
       render: (_, record) => (
@@ -262,18 +262,18 @@ const Loads = () => {
       ),
     },
     {
-      title: "Created",
+      title: "Oluşturulma",
       dataIndex: "createdDate",
       key: "createdDate",
       width: 120,
       render: (date) => (
         <span style={{ fontSize: "12px", color: "#8c8c8c" }}>
-          {new Date(date).toLocaleDateString()}
+          {new Date(date).toLocaleDateString("tr-TR")}
         </span>
       ),
     },
     {
-      title: "Actions",
+      title: "İşlem",
       key: "actions",
       fixed: "right",
       width: 80,
@@ -334,7 +334,7 @@ const Loads = () => {
                   margin: 0,
                 }}
               >
-                Loads
+                Yükler
               </h1>
               <p
                 style={{
@@ -344,7 +344,7 @@ const Loads = () => {
                   margin: 0,
                 }}
               >
-                Manage your transportation loads
+                Nakliye yüklerinizi yönetin
               </p>
             </div>
             <Button
@@ -353,13 +353,13 @@ const Loads = () => {
               size="large"
               style={{
                 borderRadius: "8px",
-                background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+                background: "#111111",
                 border: "none",
                 height: "48px",
               }}
               onClick={() => navigate("/create-load")}
             >
-              Create Load
+              Yük Oluştur
             </Button>
           </div>
 
@@ -375,7 +375,7 @@ const Loads = () => {
             <Row gutter={[16, 16]}>
               <Col xs={24} sm={12} md={6}>
                 <Input
-                  placeholder="Search by title"
+                  placeholder="Başlığa göre ara"
                   prefix={<SearchOutlined />}
                   value={filters.title}
                   onChange={(e) =>
@@ -387,7 +387,7 @@ const Loads = () => {
               </Col>
               <Col xs={24} sm={12} md={6}>
                 <Input
-                  placeholder="City"
+                  placeholder="Şehir"
                   prefix={<EnvironmentOutlined />}
                   value={filters.city}
                   onChange={(e) =>
@@ -399,7 +399,7 @@ const Loads = () => {
               </Col>
               <Col xs={24} sm={12} md={6}>
                 <Input
-                  placeholder="District"
+                  placeholder="İlçe"
                   value={filters.district}
                   onChange={(e) =>
                     setFilters({ ...filters, district: e.target.value })
@@ -410,7 +410,7 @@ const Loads = () => {
               </Col>
               <Col xs={24} sm={12} md={6}>
                 <RangePicker
-                  placeholder={["Start Date", "End Date"]}
+                  placeholder={["Başlangıç Tarihi", "Bitiş Tarihi"]}
                   onChange={handleDateRangeChange}
                   size="large"
                   style={{ width: "100%", borderRadius: "8px" }}
@@ -419,7 +419,7 @@ const Loads = () => {
               <Col xs={24} sm={12} md={4}>
                 <Input
                   type="number"
-                  placeholder="Min Weight (kg)"
+                  placeholder="Min Ağırlık (kg)"
                   value={filters.minWeight}
                   onChange={(e) =>
                     setFilters({
@@ -434,7 +434,7 @@ const Loads = () => {
               <Col xs={24} sm={12} md={4}>
                 <Input
                   type="number"
-                  placeholder="Max Weight (kg)"
+                  placeholder="Maks Ağırlık (kg)"
                   value={filters.maxWeight}
                   onChange={(e) =>
                     setFilters({
@@ -449,7 +449,7 @@ const Loads = () => {
               <Col xs={24} sm={12} md={4}>
                 <Input
                   type="number"
-                  placeholder="Min Volume (m³)"
+                  placeholder="Min Hacim (m³)"
                   value={filters.minVolume}
                   onChange={(e) =>
                     setFilters({
@@ -464,7 +464,7 @@ const Loads = () => {
               <Col xs={24} sm={12} md={4}>
                 <Input
                   type="number"
-                  placeholder="Max Volume (m³)"
+                  placeholder="Maks Hacim (m³)"
                   value={filters.maxVolume}
                   onChange={(e) =>
                     setFilters({
@@ -483,16 +483,16 @@ const Loads = () => {
                     icon={<SearchOutlined />}
                     onClick={handleSearch}
                     size="large"
-                    style={{ borderRadius: "8px" }}
+                    style={{ borderRadius: "8px", background: "#111111", border: "none" }}
                   >
-                    Search
+                    Ara
                   </Button>
                   <Button
                     onClick={handleReset}
                     size="large"
                     style={{ borderRadius: "8px" }}
                   >
-                    Reset
+                    Temizle
                   </Button>
                 </Space>
               </Col>
@@ -515,7 +515,7 @@ const Loads = () => {
                 ...pagination,
                 showSizeChanger: true,
                 showTotal: (total, range) =>
-                  `${range[0]}-${range[1]} of ${total} loads`,
+                  `${range[0]}-${range[1]} / ${total} yük`,
               }}
               onChange={(newPagination) => {
                 fetchLoads(newPagination.current, newPagination.pageSize);

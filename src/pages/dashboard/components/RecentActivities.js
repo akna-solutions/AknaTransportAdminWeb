@@ -13,65 +13,64 @@ import {
 const { Text } = Typography;
 
 const RecentActivities = () => {
-  // Mock data for recent activities
   const activities = [
     {
       id: 1,
       type: "vehicle",
-      action: "Vehicle Added",
-      description: "New truck BMW X7 (34-ABC-123) added to fleet",
-      user: "Admin User",
-      timestamp: "2 hours ago",
+      action: "Araç Eklendi",
+      description: "Yeni kamyon BMW X7 (34-ABC-123) filoya eklendi",
+      user: "Yönetici",
+      timestamp: "2 saat önce",
       status: "success",
       icon: <CarOutlined />,
     },
     {
       id: 2,
       type: "user",
-      action: "Driver Registered",
-      description: "John Doe completed registration and verification",
-      user: "John Doe",
-      timestamp: "4 hours ago",
+      action: "Sürücü Kaydedildi",
+      description: "Ahmet Yılmaz kaydını ve doğrulamasını tamamladı",
+      user: "Ahmet Yılmaz",
+      timestamp: "4 saat önce",
       status: "success",
       icon: <UserOutlined />,
     },
     {
       id: 3,
       type: "booking",
-      action: "Booking Confirmed",
-      description: "Istanbul to Ankara delivery scheduled for tomorrow",
-      user: "Transport Manager",
-      timestamp: "6 hours ago",
+      action: "Rezervasyon Onaylandı",
+      description: "İstanbul'dan Ankara'ya teslimat yarın için planlandı",
+      user: "Nakliye Müdürü",
+      timestamp: "6 saat önce",
       status: "processing",
       icon: <CalendarOutlined />,
     },
     {
       id: 4,
       type: "maintenance",
-      action: "Maintenance Required",
-      description: "Vehicle 06-XYZ-789 needs scheduled maintenance",
-      user: "System",
-      timestamp: "8 hours ago",
+      action: "Bakım Gerekli",
+      description: "06-XYZ-789 plakalı araç bakım zamanı geldi",
+      user: "Sistem",
+      timestamp: "8 saat önce",
       status: "warning",
       icon: <ExclamationCircleOutlined />,
     },
     {
       id: 5,
       type: "invoice",
-      action: "Invoice Generated",
-      description: "Invoice #INV-2024-001 created for completed delivery",
-      user: "Finance Team",
-      timestamp: "12 hours ago",
+      action: "Fatura Oluşturuldu",
+      description: "#FAT-2024-001 numaralı fatura tamamlanan teslimat için oluşturuldu",
+      user: "Muhasebe",
+      timestamp: "12 saat önce",
       status: "success",
       icon: <FileTextOutlined />,
     },
     {
       id: 6,
       type: "user",
-      action: "Driver Updated",
-      description: "Sarah Wilson updated her profile information",
-      user: "Sarah Wilson",
-      timestamp: "1 day ago",
+      action: "Sürücü Güncellendi",
+      description: "Fatma Demir profil bilgilerini güncelledi",
+      user: "Fatma Demir",
+      timestamp: "1 gün önce",
       status: "default",
       icon: <UserOutlined />,
     },
@@ -79,11 +78,11 @@ const RecentActivities = () => {
 
   const getStatusColor = (status) => {
     const colors = {
-      success: "#52c41a",
-      processing: "#1890ff",
-      warning: "#faad14",
-      error: "#ff4d4f",
-      default: "#8c8c8c",
+      success: "#333333",
+      processing: "#555555",
+      warning: "#777777",
+      error: "#111111",
+      default: "#999999",
     };
     return colors[status] || colors.default;
   };
@@ -99,6 +98,17 @@ const RecentActivities = () => {
     return icons[status] || icons.default;
   };
 
+  const getStatusLabel = (status) => {
+    const labels = {
+      success: "başarılı",
+      processing: "işlemde",
+      warning: "uyarı",
+      error: "hata",
+      default: "bekliyor",
+    };
+    return labels[status] || labels.default;
+  };
+
   const timelineItems = activities.map((activity) => ({
     dot: (
       <div
@@ -106,12 +116,12 @@ const RecentActivities = () => {
           width: "32px",
           height: "32px",
           borderRadius: "50%",
-          backgroundColor: `${getStatusColor(activity.status)}15`,
+          backgroundColor: "#f5f5f5",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
           color: getStatusColor(activity.status),
-          border: `2px solid ${getStatusColor(activity.status)}30`,
+          border: `2px solid #e8e8e8`,
         }}
       >
         {activity.icon}
@@ -131,16 +141,17 @@ const RecentActivities = () => {
             {activity.action}
           </Text>
           <Tag
-            color={getStatusColor(activity.status)}
             style={{
               fontSize: "11px",
               padding: "0 6px",
               height: "20px",
               lineHeight: "18px",
-              border: "none",
+              border: "1px solid #e8e8e8",
+              background: "#f5f5f5",
+              color: "#666666",
             }}
           >
-            {activity.status}
+            {getStatusLabel(activity.status)}
           </Tag>
         </div>
 
@@ -195,10 +206,10 @@ const RecentActivities = () => {
           }}
         >
           <span style={{ fontSize: "18px", fontWeight: "600" }}>
-            Recent Activities
+            Son Aktiviteler
           </span>
           <Text style={{ color: "#8c8c8c", fontSize: "12px" }}>
-            Last 24 hours
+            Son 24 saat
           </Text>
         </div>
       }

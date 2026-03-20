@@ -10,18 +10,15 @@ import {
 const { Title, Text } = Typography;
 
 const DashboardHeader = () => {
-  // Get user info from localStorage
   const userInfo = JSON.parse(localStorage.getItem("userInfo") || "{}");
 
-  // Get current time greeting
   const getGreeting = () => {
     const hour = new Date().getHours();
-    if (hour < 12) return "Good morning";
-    if (hour < 17) return "Good afternoon";
-    return "Good evening";
+    if (hour < 12) return "Günaydın";
+    if (hour < 17) return "İyi günler";
+    return "İyi akşamlar";
   };
 
-  // Get current date
   const getCurrentDate = () => {
     const options = {
       weekday: "long",
@@ -29,13 +26,13 @@ const DashboardHeader = () => {
       month: "long",
       day: "numeric",
     };
-    return new Date().toLocaleDateString("en-US", options);
+    return new Date().toLocaleDateString("tr-TR", options);
   };
 
   const userName =
     userInfo.name && userInfo.surname
       ? `${userInfo.name} ${userInfo.surname}`
-      : userInfo.name || "User";
+      : userInfo.name || "Kullanıcı";
 
   return (
     <div
@@ -77,7 +74,7 @@ const DashboardHeader = () => {
               marginTop: "8px",
             }}
           >
-            {getCurrentDate()} • Here's what's happening in your fleet today
+            {getCurrentDate()} • Filonuzda bugün neler oluyor
           </Text>
         </div>
 
@@ -119,14 +116,12 @@ const DashboardHeader = () => {
                 style={{
                   borderRadius: "8px",
                   height: "40px",
-                  background:
-                    "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+                  background: "#111111",
                   border: "none",
                   fontWeight: "500",
-                  boxShadow: "0 4px 12px rgba(102, 126, 234, 0.3)",
                 }}
               >
-                Quick Add
+                Hızlı Ekle
               </Button>
             </a>
           </Space>
@@ -149,11 +144,11 @@ const DashboardHeader = () => {
               width: "8px",
               height: "8px",
               borderRadius: "50%",
-              backgroundColor: "#52c41a",
+              backgroundColor: "#333333",
             }}
           />
           <Text style={{ color: "#8c8c8c", fontSize: "14px" }}>
-            All systems operational
+            Tüm sistemler çalışıyor
           </Text>
         </div>
 
@@ -163,11 +158,11 @@ const DashboardHeader = () => {
               width: "8px",
               height: "8px",
               borderRadius: "50%",
-              backgroundColor: "#1890ff",
+              backgroundColor: "#666666",
             }}
           />
           <Text style={{ color: "#8c8c8c", fontSize: "14px" }}>
-            12 active routes
+            12 aktif rota
           </Text>
         </div>
 
@@ -177,11 +172,11 @@ const DashboardHeader = () => {
               width: "8px",
               height: "8px",
               borderRadius: "50%",
-              backgroundColor: "#faad14",
+              backgroundColor: "#999999",
             }}
           />
           <Text style={{ color: "#8c8c8c", fontSize: "14px" }}>
-            3 pending approvals
+            3 bekleyen onay
           </Text>
         </div>
       </div>

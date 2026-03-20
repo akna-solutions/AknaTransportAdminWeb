@@ -6,11 +6,8 @@ import {
   DashboardOutlined,
   UserOutlined,
   CarOutlined,
-  CalendarOutlined,
   FileTextOutlined,
-  SettingOutlined,
   LogoutOutlined,
-  BellOutlined,
   TeamOutlined,
 } from "@ant-design/icons";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -22,34 +19,33 @@ const SideBar = ({ collapsed, onCollapse }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Get user info from localStorage
   const userInfo = JSON.parse(localStorage.getItem("userInfo") || "{}");
 
   const menuItems = [
     {
       key: "/",
       icon: <DashboardOutlined />,
-      label: "Dashboard",
+      label: "Panel",
     },
     {
       key: "/vehicles",
       icon: <CarOutlined />,
-      label: "Vehicles",
+      label: "Araçlar",
     },
     {
       key: "/drivers",
       icon: <UserOutlined />,
-      label: "Drivers",
+      label: "Sürücüler",
     },
     {
       key: "/invoices",
       icon: <FileTextOutlined />,
-      label: "Invoices",
+      label: "Faturalar",
     },
     {
       key: "/loads",
       icon: <TeamOutlined />,
-      label: "Loads",
+      label: "Yükler",
     },
     {
       key: "divider1",
@@ -58,7 +54,7 @@ const SideBar = ({ collapsed, onCollapse }) => {
     {
       key: "logout",
       icon: <LogoutOutlined />,
-      label: "Logout",
+      label: "Çıkış Yap",
       danger: true,
     },
   ];
@@ -86,16 +82,16 @@ const SideBar = ({ collapsed, onCollapse }) => {
         bottom: 0,
         height: "100vh",
         zIndex: 1000,
-        background: "#fff",
-        borderRight: "1px solid #f0f0f0",
-        boxShadow: "2px 0 8px rgba(0,0,0,0.06)",
+        background: "#111111",
+        borderRight: "none",
+        boxShadow: "2px 0 12px rgba(0,0,0,0.15)",
       }}
     >
       {/* Logo and Brand */}
       <div
         style={{
           padding: collapsed ? "16px 12px" : "20px 24px",
-          borderBottom: "1px solid #f0f0f0",
+          borderBottom: "1px solid rgba(255,255,255,0.08)",
           display: "flex",
           alignItems: "center",
           justifyContent: collapsed ? "center" : "space-between",
@@ -107,12 +103,12 @@ const SideBar = ({ collapsed, onCollapse }) => {
             style={{
               width: 40,
               height: 40,
-              background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+              background: "#ffffff",
               borderRadius: "12px",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              color: "white",
+              color: "#111111",
               fontWeight: "bold",
               fontSize: "14px",
               minWidth: "40px",
@@ -122,7 +118,7 @@ const SideBar = ({ collapsed, onCollapse }) => {
           </div>
           {!collapsed && (
             <div>
-              <Text strong style={{ fontSize: "16px", color: "#1a1a1a" }}>
+              <Text strong style={{ fontSize: "16px", color: "#ffffff" }}>
                 AKNA Transport
               </Text>
             </div>
@@ -139,6 +135,7 @@ const SideBar = ({ collapsed, onCollapse }) => {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
+            color: "rgba(255,255,255,0.6)",
           }}
         />
       </div>
@@ -148,16 +145,16 @@ const SideBar = ({ collapsed, onCollapse }) => {
         <div
           style={{
             padding: "20px 24px",
-            borderBottom: "1px solid #f0f0f0",
-            background: "#fafafa",
+            borderBottom: "1px solid rgba(255,255,255,0.08)",
+            background: "rgba(255,255,255,0.04)",
           }}
         >
           <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
             <Avatar
               size={48}
               style={{
-                backgroundColor: "#667eea",
-                color: "white",
+                backgroundColor: "#ffffff",
+                color: "#111111",
                 fontWeight: "bold",
                 fontSize: "16px",
               }}
@@ -173,15 +170,16 @@ const SideBar = ({ collapsed, onCollapse }) => {
                   whiteSpace: "nowrap",
                   overflow: "hidden",
                   textOverflow: "ellipsis",
+                  color: "#ffffff",
                 }}
               >
                 {userInfo.name && userInfo.surname
                   ? `${userInfo.name} ${userInfo.surname}`
-                  : "User"}
+                  : "Kullanıcı"}
               </Text>
               <Text
                 style={{
-                  color: "#8c8c8c",
+                  color: "rgba(255,255,255,0.45)",
                   fontSize: "12px",
                   display: "block",
                   whiteSpace: "nowrap",
@@ -189,7 +187,7 @@ const SideBar = ({ collapsed, onCollapse }) => {
                   textOverflow: "ellipsis",
                 }}
               >
-                {userInfo.email || "user@example.com"}
+                {userInfo.email || "kullanici@example.com"}
               </Text>
             </div>
           </div>
@@ -206,8 +204,9 @@ const SideBar = ({ collapsed, onCollapse }) => {
           border: "none",
           fontSize: "14px",
           padding: "16px 0",
+          background: "transparent",
         }}
-        theme="light"
+        theme="dark"
       />
     </Sider>
   );

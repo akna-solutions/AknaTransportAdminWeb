@@ -53,7 +53,7 @@ const MatchLoadModal = ({ visible, load, onClose, onSuccess }) => {
       setLoadingUsers(true);
       const response = await services.getUsersList({
         pageSize: 100,
-        userType: 1, // Only drivers
+        userType: 1,
       });
       setUsers(response || []);
     } catch (error) {
@@ -113,12 +113,22 @@ const MatchLoadModal = ({ visible, load, onClose, onSuccess }) => {
 
   const getUserTypeTag = (type) => {
     const types = {
-      1: { color: "blue", text: "Şirket Çalışanı" },
-      2: { color: "green", text: "Şoför" },
-      99: { color: "gold", text: "Sistem Yöneticisi" },
+      1: { text: "Şirket Çalışanı" },
+      2: { text: "Şoför" },
+      99: { text: "Sistem Yöneticisi" },
     };
-    const config = types[type] || { color: "default", text: "Bilinmiyor" };
-    return <Tag color={config.color}>{config.text}</Tag>;
+    const config = types[type] || { text: "Bilinmiyor" };
+    return (
+      <Tag
+        style={{
+          border: "1px solid #e8e8e8",
+          background: "#f5f5f5",
+          color: "#595959",
+        }}
+      >
+        {config.text}
+      </Tag>
+    );
   };
 
   const getVehicleTypeText = (type) => {
@@ -134,17 +144,24 @@ const MatchLoadModal = ({ visible, load, onClose, onSuccess }) => {
 
   const getVehicleStatusTag = (status) => {
     const statusConfig = {
-      1: { color: "success", text: "Müsait" },
-      2: { color: "warning", text: "Bakımda" },
-      3: { color: "default", text: "Pasif" },
-      4: { color: "error", text: "Hizmet Dışı" },
-      5: { color: "processing", text: "Görevde" },
+      1: { text: "Müsait" },
+      2: { text: "Bakımda" },
+      3: { text: "Pasif" },
+      4: { text: "Hizmet Dışı" },
+      5: { text: "Görevde" },
     };
-    const config = statusConfig[status] || {
-      color: "default",
-      text: "Bilinmiyor",
-    };
-    return <Tag color={config.color}>{config.text}</Tag>;
+    const config = statusConfig[status] || { text: "Bilinmiyor" };
+    return (
+      <Tag
+        style={{
+          border: "1px solid #e8e8e8",
+          background: "#f5f5f5",
+          color: "#595959",
+        }}
+      >
+        {config.text}
+      </Tag>
+    );
   };
 
   return (
@@ -156,7 +173,7 @@ const MatchLoadModal = ({ visible, load, onClose, onSuccess }) => {
               width: "40px",
               height: "40px",
               borderRadius: "50%",
-              background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+              background: "#111111",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -195,7 +212,7 @@ const MatchLoadModal = ({ visible, load, onClose, onSuccess }) => {
           onClick={handleSubmit}
           style={{
             borderRadius: "8px",
-            background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+            background: "#111111",
             border: "none",
           }}
         >
@@ -245,7 +262,7 @@ const MatchLoadModal = ({ visible, load, onClose, onSuccess }) => {
                   <Avatar
                     size={40}
                     style={{
-                      backgroundColor: "#667eea",
+                      backgroundColor: "#111111",
                       color: "white",
                       fontWeight: "bold",
                     }}
@@ -344,11 +361,11 @@ const MatchLoadModal = ({ visible, load, onClose, onSuccess }) => {
                       width: "40px",
                       height: "40px",
                       borderRadius: "8px",
-                      backgroundColor: "#667eea15",
+                      backgroundColor: "#f5f5f5",
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
-                      color: "#667eea",
+                      color: "#111111",
                     }}
                   >
                     <CarOutlined style={{ fontSize: "18px" }} />
@@ -372,7 +389,15 @@ const MatchLoadModal = ({ visible, load, onClose, onSuccess }) => {
                         {vehicle.make} {vehicle.model}
                       </span>
                       <Divider type="vertical" />
-                      <Tag color="blue" style={{ margin: 0, fontSize: "11px" }}>
+                      <Tag
+                        style={{
+                          margin: 0,
+                          fontSize: "11px",
+                          border: "1px solid #e8e8e8",
+                          background: "#f5f5f5",
+                          color: "#595959",
+                        }}
+                      >
                         {getVehicleTypeText(vehicle.vehicleType)}
                       </Tag>
                       {vehicle.payloadCapacity && (
@@ -395,15 +420,14 @@ const MatchLoadModal = ({ visible, load, onClose, onSuccess }) => {
           <div
             style={{
               padding: "16px",
-              background: "#fff7e6",
-              border: "1px solid #ffd591",
+              background: "#f5f5f5",
+              border: "1px solid #e8e8e8",
               borderRadius: "8px",
               marginTop: "-8px",
             }}
           >
-            <div style={{ color: "#fa8c16", fontSize: "14px" }}>
-              ⚠️ Seçilen kullanıcıya ait araç bulunamadı. Lütfen farklı bir
-              kullanıcı seçin.
+            <div style={{ color: "#666666", fontSize: "14px" }}>
+              ⚠️ Seçilen kullanıcıya ait araç bulunamadı. Lütfen farklı bir kullanıcı seçin.
             </div>
           </div>
         )}
@@ -413,14 +437,14 @@ const MatchLoadModal = ({ visible, load, onClose, onSuccess }) => {
             style={{
               marginTop: "24px",
               padding: "16px",
-              background: "#f0f5ff",
+              background: "#f5f5f5",
               borderRadius: "8px",
             }}
           >
             <div
               style={{
                 fontSize: "12px",
-                color: "#1890ff",
+                color: "#333333",
                 fontWeight: "600",
                 marginBottom: "8px",
               }}

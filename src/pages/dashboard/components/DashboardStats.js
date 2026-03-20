@@ -3,8 +3,6 @@ import { Card, Row, Col, Statistic, Progress } from "antd";
 import {
   CarOutlined,
   UserOutlined,
-  CalendarOutlined,
-  FileTextOutlined,
   TrophyOutlined,
   ClockCircleOutlined,
 } from "@ant-design/icons";
@@ -12,40 +10,36 @@ import {
 const DashboardStats = ({ stats }) => {
   const statisticsData = [
     {
-      title: "Total Vehicles",
+      title: "Toplam Araç",
       value: stats?.totalVehicles || 0,
-      icon: <CarOutlined style={{ color: "#1890ff" }} />,
-      color: "#1890ff",
-      prefix: null,
-      suffix: null,
+      icon: <CarOutlined style={{ color: "#111111" }} />,
+      color: "#111111",
     },
     {
-      title: "Active Drivers",
+      title: "Aktif Sürücü",
       value: stats?.activeDrivers || 0,
-      icon: <UserOutlined style={{ color: "#52c41a" }} />,
-      color: "#52c41a",
-      prefix: null,
-      suffix: null,
+      icon: <UserOutlined style={{ color: "#111111" }} />,
+      color: "#111111",
     },
   ];
 
   const performanceData = [
     {
-      title: "On-Time Deliveries",
+      title: "Zamanında Teslimat",
       percent: stats?.onTimeDeliveryRate || 85,
-      color: "#52c41a",
+      color: "#111111",
       icon: <TrophyOutlined />,
     },
     {
-      title: "Vehicle Utilization",
+      title: "Araç Kullanımı",
       percent: stats?.vehicleUtilization || 78,
-      color: "#1890ff",
+      color: "#444444",
       icon: <CarOutlined />,
     },
     {
-      title: "Average Response Time",
+      title: "Ortalama Yanıt Süresi",
       percent: stats?.responseTime || 92,
-      color: "#faad14",
+      color: "#777777",
       icon: <ClockCircleOutlined />,
     },
   ];
@@ -75,8 +69,6 @@ const DashboardStats = ({ stats }) => {
                   <Statistic
                     title={stat.title}
                     value={stat.value}
-                    prefix={stat.prefix}
-                    suffix={stat.suffix}
                     valueStyle={{
                       color: stat.color,
                       fontSize: "28px",
@@ -96,7 +88,7 @@ const DashboardStats = ({ stats }) => {
                     width: "48px",
                     height: "48px",
                     borderRadius: "12px",
-                    backgroundColor: `${stat.color}15`,
+                    backgroundColor: "#f5f5f5",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
@@ -125,7 +117,7 @@ const DashboardStats = ({ stats }) => {
                       width: "32px",
                       height: "32px",
                       borderRadius: "8px",
-                      backgroundColor: `${metric.color}15`,
+                      backgroundColor: "#f5f5f5",
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
@@ -172,7 +164,7 @@ const DashboardStats = ({ stats }) => {
                     fontSize: "14px",
                   }}
                 >
-                  Current Performance
+                  Güncel Performans
                 </div>
               </div>
             </Card>
