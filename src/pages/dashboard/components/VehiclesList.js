@@ -20,6 +20,8 @@ import {
   EnvironmentOutlined,
 } from "@ant-design/icons";
 import { services } from "../../../common/services";
+import tr from "../../../common/translations";
+import { darkTheme } from "../../../common/darkTheme";
 
 const { confirm } = Modal;
 
@@ -53,7 +55,7 @@ const VehiclesList = () => {
         total: response?.length || 0,
       }));
     } catch (error) {
-      message.error("Failed to load vehicles");
+      message.error(tr.failedLoadVehicles);
       console.error("Error fetching vehicles:", error);
     } finally {
       setLoading(false);
@@ -62,19 +64,19 @@ const VehiclesList = () => {
 
   const handleDelete = (vehicleId, plateNumber) => {
     confirm({
-      title: "Delete Vehicle",
+      title: tr.deleteVehicle,
       icon: <ExclamationCircleOutlined />,
-      content: `Are you sure you want to delete vehicle "${plateNumber}"?`,
-      okText: "Yes, Delete",
+      content: `${tr.deleteVehicleConfirm} "${plateNumber}"?`,
+      okText: tr.yesDelete,
       okType: "danger",
-      cancelText: "Cancel",
+      cancelText: tr.cancel,
       onOk: async () => {
         try {
           await services.deleteVehicle(vehicleId);
-          message.success("Vehicle deleted successfully");
+          message.success(tr.vehicleDeletedSuccess);
           fetchVehicles(pagination.current, pagination.pageSize);
         } catch (error) {
-          message.error("Failed to delete vehicle");
+          message.error(tr.failedDeleteVehicle);
           console.error("Error deleting vehicle:", error);
         }
       },
@@ -83,27 +85,27 @@ const VehiclesList = () => {
 
   const getVehicleTypeText = (type) => {
     const types = {
-      1: "Truck",
-      2: "Van",
-      3: "Container",
-      4: "Trailer",
-      5: "Tanker",
+      1: tr.truck,
+      2: tr.van,
+      3: tr.container,
+      4: tr.trailer,
+      5: tr.tanker,
     };
-    return types[type] || "Unknown";
+    return types[type] || tr.unknown;
   };
 
   const getVehicleStatusTag = (status) => {
     const statusConfig = {
-      1: { color: "success", text: "Available" },
-      2: { color: "processing", text: "In Transit" },
-      3: { color: "warning", text: "Maintenance" },
-      4: { color: "error", text: "Out of Service" },
-      5: { color: "default", text: "Inactive" },
+      1: { color: "success", text: tr.available },
+      2: { color: "processing", text: tr.inTransit },
+      3: { color: "warning", text: tr.maintenance },
+      4: { color: "error", text: tr.outOfService },
+      5: { color: "default", text: tr.inactive },
     };
 
     const config = statusConfig[status] || {
       color: "default",
-      text: "Unknown",
+      text: tr.unknown,
     };
     return <Tag color={config.color}>{config.text}</Tag>;
   };
@@ -112,7 +114,7 @@ const VehiclesList = () => {
     {
       key: "view",
       icon: <EyeOutlined />,
-      label: "View Details",
+      label: tr.viewDetails,
       onClick: () => {
         // Handle view vehicle details
         message.info("View vehicle details functionality");
@@ -121,7 +123,7 @@ const VehiclesList = () => {
     {
       key: "edit",
       icon: <EditOutlined />,
-      label: "Edit Vehicle",
+      label: tr.editVehicle,
       onClick: () => {
         // Handle edit vehicle
         message.info("Edit vehicle functionality");
@@ -130,7 +132,7 @@ const VehiclesList = () => {
     {
       key: "delete",
       icon: <DeleteOutlined />,
-      label: "Delete Vehicle",
+      label: tr.deleteVehicle,
       danger: true,
       onClick: () => handleDelete(record.id, record.plateNumber),
     },
@@ -138,7 +140,7 @@ const VehiclesList = () => {
 
   const columns = [
     {
-      title: "Vehicle",
+      title: tr.vehicle,
       dataIndex: "plateNumber",
       key: "plateNumber",
       render: (plateNumber, record) => (
@@ -158,10 +160,10 @@ const VehiclesList = () => {
             <CarOutlined style={{ fontSize: "18px" }} />
           </div>
           <div>
-            <div style={{ fontWeight: "600", fontSize: "14px" }}>
+            <div style={{ fontWeight: "600", fontSize: "14px", color: darkTheme.primaryText }}>
               {plateNumber}
             </div>
-            <div style={{ color: "#8c8c8c", fontSize: "12px" }}>
+            <div style={{ color: darkTheme.secondaryText, fontSize: "12px" }}>
               {record.make} {record.model}
             </div>
           </div>
@@ -169,37 +171,37 @@ const VehiclesList = () => {
       ),
     },
     {
-      title: "Type",
+      title: tr.type,
       dataIndex: "vehicleType",
       key: "vehicleType",
       render: (type) => <Tag color="blue">{getVehicleTypeText(type)}</Tag>,
     },
     {
-      title: "Status",
+      title: tr.status,
       dataIndex: "status",
       key: "status",
       render: (status) => getVehicleStatusTag(status),
     },
     {
-      title: "Capacity",
+      title: tr.capacity,
       dataIndex: "payloadCapacity",
       key: "payloadCapacity",
-      render: (capacity) => (capacity ? `${capacity} kg` : "N/A"),
+      render: (capacity) => (capacity ? `${capacity} kg` : tr.na),
     },
     {
-      title: "Location",
+      title: tr.location,
       key: "location",
       render: (_, record) => (
         <div style={{ display: "flex", alignItems: "center", gap: "4px" }}>
-          <EnvironmentOutlined style={{ color: "#8c8c8c" }} />
-          <span style={{ color: "#8c8c8c", fontSize: "12px" }}>
-            {record.lastKnownLat && record.lastKnownLng ? "Located" : "Unknown"}
+          <EnvironmentOutlined style={{ color: darkTheme.secondaryText }} />
+          <span style={{ color: darkTheme.secondaryText, fontSize: "12px" }}>
+            {record.lastKnownLat && record.lastKnownLng ? tr.located : tr.unknown}
           </span>
         </div>
       ),
     },
     {
-      title: "Actions",
+      title: tr.actions,
       key: "actions",
       width: 60,
       render: (_, record) => (
@@ -241,18 +243,19 @@ const VehiclesList = () => {
             justifyContent: "space-between",
           }}
         >
-          <span style={{ fontSize: "18px", fontWeight: "600" }}>
-            Recent Vehicles
+          <span style={{ fontSize: "18px", fontWeight: "600", color: darkTheme.primaryText }}>
+            {tr.recentVehicles}
           </span>
           <Button type="primary" size="small">
-            View All
+            {tr.viewAll}
           </Button>
         </div>
       }
       style={{
         borderRadius: "16px",
-        border: "1px solid #f0f0f0",
-        boxShadow: "0 2px 8px rgba(0,0,0,0.04)",
+        border: `1px solid ${darkTheme.borderColor}`,
+        boxShadow: "0 2px 8px rgba(0,0,0,0.3)",
+        background: darkTheme.cardBg,
       }}
       bodyStyle={{ padding: "24px" }}
     >
@@ -265,7 +268,7 @@ const VehiclesList = () => {
           showSizeChanger: false,
           showQuickJumper: false,
           showTotal: (total, range) =>
-            `${range[0]}-${range[1]} of ${total} vehicles`,
+            `${range[0]}-${range[1]} / ${total} ${tr.vehiclesOf}`,
         }}
         onChange={handleTableChange}
         rowKey="id"

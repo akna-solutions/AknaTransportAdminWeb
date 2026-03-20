@@ -23,6 +23,8 @@ import {
   CloseCircleOutlined,
 } from "@ant-design/icons";
 import { services } from "../../../common/services";
+import tr from "../../../common/translations";
+import { darkTheme } from "../../../common/darkTheme";
 
 const { confirm } = Modal;
 
@@ -108,7 +110,7 @@ const UsersList = () => {
       //   total: response?.length || 0
       // }));
     } catch (error) {
-      message.error("Failed to load users");
+      message.error(tr.failedLoadUsers);
       console.error("Error fetching users:", error);
     } finally {
       setLoading(false);
@@ -117,19 +119,19 @@ const UsersList = () => {
 
   const handleDelete = (userId, userName) => {
     confirm({
-      title: "Delete User",
+      title: tr.deleteUser,
       icon: <ExclamationCircleOutlined />,
-      content: `Are you sure you want to delete user "${userName}"?`,
-      okText: "Yes, Delete",
+      content: `${tr.deleteUserConfirm} "${userName}"?`,
+      okText: tr.yesDelete,
       okType: "danger",
-      cancelText: "Cancel",
+      cancelText: tr.cancel,
       onOk: async () => {
         try {
           await services.deleteUser(userId);
-          message.success("User deleted successfully");
+          message.success(tr.userDeletedSuccess);
           fetchUsers(pagination.current, pagination.pageSize);
         } catch (error) {
-          message.error("Failed to delete user");
+          message.error(tr.failedDeleteUser);
           console.error("Error deleting user:", error);
         }
       },
@@ -138,24 +140,24 @@ const UsersList = () => {
 
   const getUserTypeTag = (type) => {
     const types = {
-      1: { color: "blue", text: "Driver" },
-      2: { color: "green", text: "Admin" },
-      99: { color: "gold", text: "Super Admin" },
+      1: { color: "blue", text: tr.driver },
+      2: { color: "green", text: tr.admin },
+      99: { color: "gold", text: tr.superAdmin },
     };
 
-    const config = types[type] || { color: "default", text: "Unknown" };
+    const config = types[type] || { color: "default", text: tr.unknown };
     return <Tag color={config.color}>{config.text}</Tag>;
   };
 
   const getGenderText = (gender) => {
-    return gender === 1 ? "Male" : gender === 2 ? "Female" : "N/A";
+    return gender === 1 ? tr.male : gender === 2 ? tr.female : tr.na;
   };
 
   const getActionItems = (record) => [
     {
       key: "view",
       icon: <EyeOutlined />,
-      label: "View Profile",
+      label: tr.viewProfile,
       onClick: () => {
         message.info("View user profile functionality");
       },
@@ -163,7 +165,7 @@ const UsersList = () => {
     {
       key: "edit",
       icon: <EditOutlined />,
-      label: "Edit User",
+      label: tr.editUser,
       onClick: () => {
         message.info("Edit user functionality");
       },
@@ -171,7 +173,7 @@ const UsersList = () => {
     {
       key: "delete",
       icon: <DeleteOutlined />,
-      label: "Delete User",
+      label: tr.deleteUser,
       danger: true,
       onClick: () =>
         handleDelete(record.id, `${record.name} ${record.surname}`),
@@ -180,7 +182,7 @@ const UsersList = () => {
 
   const columns = [
     {
-      title: "User",
+      title: tr.user,
       dataIndex: "name",
       key: "name",
       render: (name, record) => (
@@ -197,10 +199,10 @@ const UsersList = () => {
             {name ? name.charAt(0).toUpperCase() : "U"}
           </Avatar>
           <div>
-            <div style={{ fontWeight: "600", fontSize: "14px" }}>
+            <div style={{ fontWeight: "600", fontSize: "14px", color: darkTheme.primaryText }}>
               {name} {record.surname}
             </div>
-            <div style={{ color: "#8c8c8c", fontSize: "12px" }}>
+            <div style={{ color: darkTheme.secondaryText, fontSize: "12px" }}>
               @{record.userCode}
             </div>
           </div>
@@ -208,7 +210,7 @@ const UsersList = () => {
       ),
     },
     {
-      title: "Contact",
+      title: tr.contact,
       key: "contact",
       render: (_, record) => (
         <div>
@@ -252,23 +254,23 @@ const UsersList = () => {
       ),
     },
     {
-      title: "Type",
+      title: tr.type,
       dataIndex: "userType",
       key: "userType",
       render: (type) => getUserTypeTag(type),
     },
     {
-      title: "Gender",
+      title: tr.gender,
       dataIndex: "gender",
       key: "gender",
       render: (gender) => (
-        <span style={{ color: "#8c8c8c", fontSize: "12px" }}>
+        <span style={{ color: darkTheme.secondaryText, fontSize: "12px" }}>
           {getGenderText(gender)}
         </span>
       ),
     },
     {
-      title: "Status",
+      title: tr.status,
       key: "status",
       render: (_, record) => {
         const isVerified =
@@ -276,13 +278,13 @@ const UsersList = () => {
         return (
           <Badge
             status={isVerified ? "success" : "warning"}
-            text={isVerified ? "Verified" : "Pending"}
+            text={isVerified ? tr.verified : tr.pending}
           />
         );
       },
     },
     {
-      title: "Actions",
+      title: tr.actions,
       key: "actions",
       width: 60,
       render: (_, record) => (
@@ -324,18 +326,19 @@ const UsersList = () => {
             justifyContent: "space-between",
           }}
         >
-          <span style={{ fontSize: "18px", fontWeight: "600" }}>
-            Recent Users
+          <span style={{ fontSize: "18px", fontWeight: "600", color: darkTheme.primaryText }}>
+            {tr.recentUsers}
           </span>
           <Button type="primary" size="small">
-            View All
+            {tr.viewAll}
           </Button>
         </div>
       }
       style={{
         borderRadius: "16px",
-        border: "1px solid #f0f0f0",
-        boxShadow: "0 2px 8px rgba(0,0,0,0.04)",
+        border: `1px solid ${darkTheme.borderColor}`,
+        boxShadow: "0 2px 8px rgba(0,0,0,0.3)",
+        background: darkTheme.cardBg,
       }}
       bodyStyle={{ padding: "24px" }}
     >
@@ -348,7 +351,7 @@ const UsersList = () => {
           showSizeChanger: false,
           showQuickJumper: false,
           showTotal: (total, range) =>
-            `${range[0]}-${range[1]} of ${total} users`,
+            `${range[0]}-${range[1]} / ${total} ${tr.usersOf}`,
         }}
         onChange={handleTableChange}
         rowKey="id"

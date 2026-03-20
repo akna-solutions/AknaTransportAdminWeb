@@ -9,6 +9,8 @@ import {
   ClockCircleOutlined,
   ExclamationCircleOutlined,
 } from "@ant-design/icons";
+import tr from "../../../common/translations";
+import { darkTheme } from "../../../common/darkTheme";
 
 const { Text } = Typography;
 
@@ -18,60 +20,60 @@ const RecentActivities = () => {
     {
       id: 1,
       type: "vehicle",
-      action: "Vehicle Added",
-      description: "New truck BMW X7 (34-ABC-123) added to fleet",
-      user: "Admin User",
-      timestamp: "2 hours ago",
+      action: tr.vehicleAdded,
+      description: "Yeni kamyon BMW X7 (34-ABC-123) filo eklenmiştir",
+      user: "Admin Kullanıcısı",
+      timestamp: "2 saat önce",
       status: "success",
       icon: <CarOutlined />,
     },
     {
       id: 2,
       type: "user",
-      action: "Driver Registered",
-      description: "John Doe completed registration and verification",
+      action: tr.driverRegistered,
+      description: "John Doe kaydı tamamlamış ve doğrulanmıştır",
       user: "John Doe",
-      timestamp: "4 hours ago",
+      timestamp: "4 saat önce",
       status: "success",
       icon: <UserOutlined />,
     },
     {
       id: 3,
       type: "booking",
-      action: "Booking Confirmed",
-      description: "Istanbul to Ankara delivery scheduled for tomorrow",
-      user: "Transport Manager",
-      timestamp: "6 hours ago",
+      action: tr.bookingConfirmed,
+      description: "İstanbul - Ankara teslimatı yarın için planlanmıştır",
+      user: "Taşıma Müdürü",
+      timestamp: "6 saat önce",
       status: "processing",
       icon: <CalendarOutlined />,
     },
     {
       id: 4,
       type: "maintenance",
-      action: "Maintenance Required",
-      description: "Vehicle 06-XYZ-789 needs scheduled maintenance",
-      user: "System",
-      timestamp: "8 hours ago",
+      action: tr.maintenanceRequired,
+      description: "Araç 06-XYZ-789 periyodik bakıma ihtiyaç duyuyor",
+      user: "Sistem",
+      timestamp: "8 saat önce",
       status: "warning",
       icon: <ExclamationCircleOutlined />,
     },
     {
       id: 5,
       type: "invoice",
-      action: "Invoice Generated",
-      description: "Invoice #INV-2024-001 created for completed delivery",
-      user: "Finance Team",
-      timestamp: "12 hours ago",
+      action: tr.invoiceGenerated,
+      description: "Fatura #INV-2024-001 tamamlanmış teslimat için oluşturuldu",
+      user: "Finans Ekibi",
+      timestamp: "12 saat önce",
       status: "success",
       icon: <FileTextOutlined />,
     },
     {
       id: 6,
       type: "user",
-      action: "Driver Updated",
-      description: "Sarah Wilson updated her profile information",
+      action: tr.driverUpdated,
+      description: "Sarah Wilson profil bilgilerini güncelleştirdi",
       user: "Sarah Wilson",
-      timestamp: "1 day ago",
+      timestamp: "1 gün önce",
       status: "default",
       icon: <UserOutlined />,
     },
@@ -147,7 +149,7 @@ const RecentActivities = () => {
         <Text
           style={{
             display: "block",
-            color: "#595959",
+            color: darkTheme.secondaryText,
             fontSize: "13px",
             lineHeight: "18px",
             marginBottom: "8px",
@@ -167,16 +169,16 @@ const RecentActivities = () => {
           <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
             <Avatar
               size={20}
-              style={{ backgroundColor: "#f0f0f0", color: "#8c8c8c" }}
+              style={{ backgroundColor: darkTheme.borderColor, color: darkTheme.secondaryText }}
             >
               {activity.user.charAt(0)}
             </Avatar>
-            <Text style={{ fontSize: "12px", color: "#8c8c8c" }}>
+            <Text style={{ fontSize: "12px", color: darkTheme.secondaryText }}>
               {activity.user}
             </Text>
           </div>
 
-          <Text style={{ fontSize: "12px", color: "#bfbfbf" }}>
+          <Text style={{ fontSize: "12px", color: darkTheme.secondaryText }}>
             {activity.timestamp}
           </Text>
         </div>
@@ -194,19 +196,20 @@ const RecentActivities = () => {
             justifyContent: "space-between",
           }}
         >
-          <span style={{ fontSize: "18px", fontWeight: "600" }}>
-            Recent Activities
+          <span style={{ fontSize: "18px", fontWeight: "600", color: darkTheme.primaryText }}>
+            {tr.recentActivities}
           </span>
-          <Text style={{ color: "#8c8c8c", fontSize: "12px" }}>
-            Last 24 hours
+          <Text style={{ color: darkTheme.secondaryText, fontSize: "12px" }}>
+            {tr.last24Hours}
           </Text>
         </div>
       }
       style={{
         borderRadius: "16px",
-        border: "1px solid #f0f0f0",
-        boxShadow: "0 2px 8px rgba(0,0,0,0.04)",
+        border: `1px solid ${darkTheme.borderColor}`,
+        boxShadow: "0 2px 8px rgba(0,0,0,0.3)",
         height: "100%",
+        background: darkTheme.cardBg,
       }}
       bodyStyle={{
         padding: "24px",

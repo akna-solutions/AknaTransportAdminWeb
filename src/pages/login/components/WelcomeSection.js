@@ -1,4 +1,5 @@
 import { Typography } from "antd";
+import { darkTheme } from "../../../common/darkTheme";
 
 const { Title, Text } = Typography;
 
@@ -7,7 +8,7 @@ const WelcomeSection = () => {
     <div
       style={{
         height: "100vh",
-        background: "linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)",
+        background: `linear-gradient(135deg, ${darkTheme.secondaryBg} 0%, #1f1f1f 100%)`,
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
@@ -71,9 +72,9 @@ const WelcomeSection = () => {
             lineHeight: 1.2,
           }}
         >
-          Edit Smarter. Export Faster.
+          Akıllıca Yönetin.
           <br />
-          Create Anywhere.
+          Hızlıca Teslimat Edin.
         </Title>
 
         <Text
@@ -83,8 +84,8 @@ const WelcomeSection = () => {
             lineHeight: 1.6,
           }}
         >
-          From quick social media clips to full-length videos, our powerful
-          editor lets you work seamlessly across devices.
+          AKNA Taşıma ile tüm araç ve sürücü yönetim işlemlerinizi kolayca
+          gerçekleştirin. Modern ve güvenli çözümler ile işinizi daha verimli kılın.
         </Text>
       </div>
     </div>

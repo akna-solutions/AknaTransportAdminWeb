@@ -7,6 +7,7 @@ import VehiclesList from "./components/VehiclesList";
 import UsersList from "./components/UsersList";
 import RecentActivities from "./components/RecentActivities";
 import { services } from "../../common/services";
+import { darkTheme } from "../../common/darkTheme";
 
 const Dashboard = () => {
   const [stats, setStats] = useState({
@@ -58,7 +59,7 @@ const Dashboard = () => {
 
   return (
     <MainLayout>
-      <div style={{ minHeight: "100vh", background: "#f5f5f5" }}>
+      <div style={{ minHeight: "100vh", background: darkTheme.primaryBg }}>
         {/* Header */}
         <DashboardHeader />
 

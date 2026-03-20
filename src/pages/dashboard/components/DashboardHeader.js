@@ -6,6 +6,8 @@ import {
   SearchOutlined,
   FilterOutlined,
 } from "@ant-design/icons";
+import tr from "../../../common/translations";
+import { darkTheme } from "../../../common/darkTheme";
 
 const { Title, Text } = Typography;
 
@@ -16,9 +18,9 @@ const DashboardHeader = () => {
   // Get current time greeting
   const getGreeting = () => {
     const hour = new Date().getHours();
-    if (hour < 12) return "Good morning";
-    if (hour < 17) return "Good afternoon";
-    return "Good evening";
+    if (hour < 12) return tr.goodMorning;
+    if (hour < 17) return tr.goodAfternoon;
+    return tr.goodEvening;
   };
 
   // Get current date
@@ -29,7 +31,7 @@ const DashboardHeader = () => {
       month: "long",
       day: "numeric",
     };
-    return new Date().toLocaleDateString("en-US", options);
+    return new Date().toLocaleDateString("tr-TR", options);
   };
 
   const userName =
@@ -40,9 +42,9 @@ const DashboardHeader = () => {
   return (
     <div
       style={{
-        background: "#fff",
+        background: darkTheme.cardBg,
         padding: "32px 40px",
-        borderBottom: "1px solid #f0f0f0",
+        borderBottom: `1px solid ${darkTheme.borderColor}`,
         marginBottom: "32px",
       }}
     >
@@ -64,7 +66,7 @@ const DashboardHeader = () => {
               fontSize: "32px",
               fontWeight: "700",
               lineHeight: "40px",
-              color: "#1a1a1a",
+              color: darkTheme.primaryText,
             }}
           >
             {getGreeting()}, {userName.split(" ")[0]}!
@@ -72,12 +74,12 @@ const DashboardHeader = () => {
           <Text
             style={{
               fontSize: "16px",
-              color: "#8c8c8c",
+              color: darkTheme.secondaryText,
               display: "block",
               marginTop: "8px",
             }}
           >
-            {getCurrentDate()} • Here's what's happening in your fleet today
+            {getCurrentDate()} • {tr.hereIsWhatsHappening}
           </Text>
         </div>
 
@@ -124,9 +126,10 @@ const DashboardHeader = () => {
                   border: "none",
                   fontWeight: "500",
                   boxShadow: "0 4px 12px rgba(102, 126, 234, 0.3)",
+                  color: "#ffffff",
                 }}
               >
-                Quick Add
+                {tr.quickAdd}
               </Button>
             </a>
           </Space>
@@ -152,8 +155,8 @@ const DashboardHeader = () => {
               backgroundColor: "#52c41a",
             }}
           />
-          <Text style={{ color: "#8c8c8c", fontSize: "14px" }}>
-            All systems operational
+          <Text style={{ color: darkTheme.secondaryText, fontSize: "14px" }}>
+            {tr.allSystemsOperational}
           </Text>
         </div>
 
@@ -166,8 +169,8 @@ const DashboardHeader = () => {
               backgroundColor: "#1890ff",
             }}
           />
-          <Text style={{ color: "#8c8c8c", fontSize: "14px" }}>
-            12 active routes
+          <Text style={{ color: darkTheme.secondaryText, fontSize: "14px" }}>
+            12 {tr.activeRoutes}
           </Text>
         </div>
 
@@ -180,8 +183,8 @@ const DashboardHeader = () => {
               backgroundColor: "#faad14",
             }}
           />
-          <Text style={{ color: "#8c8c8c", fontSize: "14px" }}>
-            3 pending approvals
+          <Text style={{ color: darkTheme.secondaryText, fontSize: "14px" }}>
+            3 {tr.pendingApprovals}
           </Text>
         </div>
       </div>

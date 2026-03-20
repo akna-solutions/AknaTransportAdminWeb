@@ -8,11 +8,13 @@ import {
   TrophyOutlined,
   ClockCircleOutlined,
 } from "@ant-design/icons";
+import tr from "../../../common/translations";
+import { darkTheme } from "../../../common/darkTheme";
 
 const DashboardStats = ({ stats }) => {
   const statisticsData = [
     {
-      title: "Total Vehicles",
+      title: tr.totalVehicles,
       value: stats?.totalVehicles || 0,
       icon: <CarOutlined style={{ color: "#1890ff" }} />,
       color: "#1890ff",
@@ -20,7 +22,7 @@ const DashboardStats = ({ stats }) => {
       suffix: null,
     },
     {
-      title: "Active Drivers",
+      title: tr.activeDrivers,
       value: stats?.activeDrivers || 0,
       icon: <UserOutlined style={{ color: "#52c41a" }} />,
       color: "#52c41a",
@@ -31,19 +33,19 @@ const DashboardStats = ({ stats }) => {
 
   const performanceData = [
     {
-      title: "On-Time Deliveries",
+      title: tr.onTimeDeliveries,
       percent: stats?.onTimeDeliveryRate || 85,
       color: "#52c41a",
       icon: <TrophyOutlined />,
     },
     {
-      title: "Vehicle Utilization",
+      title: tr.vehicleUtilization,
       percent: stats?.vehicleUtilization || 78,
       color: "#1890ff",
       icon: <CarOutlined />,
     },
     {
-      title: "Average Response Time",
+      title: tr.averageResponseTime,
       percent: stats?.responseTime || 92,
       color: "#faad14",
       icon: <ClockCircleOutlined />,
@@ -59,8 +61,9 @@ const DashboardStats = ({ stats }) => {
             <Card
               style={{
                 borderRadius: "16px",
-                border: "1px solid #f0f0f0",
-                boxShadow: "0 2px 8px rgba(0,0,0,0.04)",
+                border: `1px solid ${darkTheme.borderColor}`,
+                boxShadow: "0 2px 8px rgba(0,0,0,0.3)",
+                background: darkTheme.cardBg,
               }}
               bodyStyle={{ padding: "24px" }}
             >
@@ -84,7 +87,7 @@ const DashboardStats = ({ stats }) => {
                       lineHeight: "32px",
                     }}
                     titleStyle={{
-                      color: "#8c8c8c",
+                      color: darkTheme.secondaryText,
                       fontSize: "14px",
                       fontWeight: "normal",
                       marginBottom: "8px",
@@ -134,15 +137,16 @@ const DashboardStats = ({ stats }) => {
                   >
                     {metric.icon}
                   </div>
-                  <span style={{ fontSize: "16px", fontWeight: "600" }}>
+                  <span style={{ fontSize: "16px", fontWeight: "600", color: darkTheme.primaryText }}>
                     {metric.title}
                   </span>
                 </div>
               }
               style={{
                 borderRadius: "16px",
-                border: "1px solid #f0f0f0",
-                boxShadow: "0 2px 8px rgba(0,0,0,0.04)",
+                border: `1px solid ${darkTheme.borderColor}`,
+                boxShadow: "0 2px 8px rgba(0,0,0,0.3)",
+                background: darkTheme.cardBg,
               }}
               bodyStyle={{ padding: "24px" }}
             >
@@ -168,11 +172,11 @@ const DashboardStats = ({ stats }) => {
                 <div
                   style={{
                     marginTop: "16px",
-                    color: "#8c8c8c",
+                    color: darkTheme.secondaryText,
                     fontSize: "14px",
                   }}
                 >
-                  Current Performance
+                  {tr.currentPerformance}
                 </div>
               </div>
             </Card>
