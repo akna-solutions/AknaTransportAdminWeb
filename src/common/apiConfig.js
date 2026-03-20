@@ -1,7 +1,7 @@
 // API Base URLs
 export const API_URLS = {
-  IDENTITY: "https://localhost:5000",
-  LOAD: "https://localhost:5001",
+  IDENTITY: "http://192.168.0.98:5000",
+  LOAD: "http://192.168.0.98:5001",
 };
 
 // Get auth token from localStorage

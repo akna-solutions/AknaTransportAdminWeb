@@ -347,4 +347,25 @@ export const services = {
       return handleApiError(error);
     }
   },
+
+  // Yük konumunu getirir
+  getLoadLocation: async (loadId) => {
+    try {
+      const response = await fetch(
+        `${API_URLS.LOAD}/api/load/location?LoadId=${loadId}`,
+        {
+          method: "GET",
+          headers: getHeaders(),
+        },
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      return await response.json();
+    } catch (error) {
+      return handleApiError(error);
+    }
+  },
 };

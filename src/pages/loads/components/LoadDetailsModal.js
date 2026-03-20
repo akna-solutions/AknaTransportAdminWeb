@@ -9,6 +9,7 @@ import {
   Card,
   Empty,
   Spin,
+  message,
 } from "antd";
 import {
   EnvironmentOutlined,
@@ -23,6 +24,7 @@ import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import LoadStatusTag from "./LoadStatusTag";
+import { services } from "../../../common/services";
 
 // Fix for default marker icon in React-Leaflet
 delete L.Icon.Default.prototype._getIconUrl;
@@ -66,10 +68,39 @@ const MapUpdater = ({ center }) => {
 const LoadDetailsModal = ({ visible, load, onClose }) => {
   const [mapKey, setMapKey] = useState(0);
   const [lastUpdate, setLastUpdate] = useState(new Date());
+  const [currentLocation, setCurrentLocation] = useState(null);
+  const [loadingLocation, setLoadingLocation] = useState(false);
   const intervalRef = useRef(null);
 
+  // Konum bilgisini çek
+  const fetchLoadLocation = async () => {
+    if (!load?.id) return;
+
+    try {
+      setLoadingLocation(true);
+      const response = await services.getLoadLocation(load.id);
+
+      if (response.isSuccess && response.latitude && response.longitude) {
+        setCurrentLocation({
+          latitude: response.latitude,
+          longitude: response.longitude,
+        });
+        setMapKey((prev) => prev + 1);
+        setLastUpdate(new Date());
+      }
+    } catch (error) {
+      console.error("Konum bilgisi alınamadı:", error);
+      // Sessizce hata yönetimi - kullanıcıya mesaj gösterme
+    } finally {
+      setLoadingLocation(false);
+    }
+  };
+
   useEffect(() => {
-    if (visible && load?.latitude && load?.longitude) {
+    if (visible && load?.id) {
+      // İlk yüklemede konum bilgisini al
+      fetchLoadLocation();
+
       // Clear any existing interval
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
@@ -77,8 +108,7 @@ const LoadDetailsModal = ({ visible, load, onClose }) => {
 
       // Set up auto-refresh every 5 seconds
       intervalRef.current = setInterval(() => {
-        setMapKey((prev) => prev + 1);
-        setLastUpdate(new Date());
+        fetchLoadLocation();
       }, 5000);
 
       // Cleanup on unmount or when modal closes
@@ -88,7 +118,7 @@ const LoadDetailsModal = ({ visible, load, onClose }) => {
         }
       };
     }
-  }, [visible, load]);
+  }, [visible, load?.id]);
 
   if (!load) {
     return null;
@@ -105,9 +135,15 @@ const LoadDetailsModal = ({ visible, load, onClose }) => {
     ? [...load.loadStops].sort((a, b) => a.stopOrder - b.stopOrder)
     : [];
 
-  const hasLocation = load.latitude && load.longitude;
+  // Konum bilgisi - önce API'den gelen güncel konum, yoksa load üzerindeki konum
+  const locationData = currentLocation || {
+    latitude: load.latitude,
+    longitude: load.longitude,
+  };
+
+  const hasLocation = locationData?.latitude && locationData?.longitude;
   const mapCenter = hasLocation
-    ? [parseFloat(load.latitude), parseFloat(load.longitude)]
+    ? [parseFloat(locationData.latitude), parseFloat(locationData.longitude)]
     : [39.9334, 32.8597]; // Default to Ankara, Turkey
 
   return (
@@ -303,7 +339,11 @@ const LoadDetailsModal = ({ visible, load, onClose }) => {
                     color: "#8c8c8c",
                   }}
                 >
-                  <ReloadOutlined spin />
+                  {loadingLocation ? (
+                    <Spin size="small" />
+                  ) : (
+                    <ReloadOutlined spin />
+                  )}
                   <span>
                     Auto-refresh • Last updated:{" "}
                     {lastUpdate.toLocaleTimeString()}
@@ -332,7 +372,7 @@ const LoadDetailsModal = ({ visible, load, onClose }) => {
                     Latitude
                   </div>
                   <div style={{ fontWeight: "600", color: "#1890ff" }}>
-                    {load.latitude}
+                    {locationData.latitude}
                   </div>
                 </Col>
                 <Col span={12}>
@@ -340,7 +380,7 @@ const LoadDetailsModal = ({ visible, load, onClose }) => {
                     Longitude
                   </div>
                   <div style={{ fontWeight: "600", color: "#1890ff" }}>
-                    {load.longitude}
+                    {locationData.longitude}
                   </div>
                 </Col>
               </Row>
@@ -377,8 +417,8 @@ const LoadDetailsModal = ({ visible, load, onClose }) => {
                           color: "#595959",
                         }}
                       >
-                        <div>Lat: {load.latitude}</div>
-                        <div>Lng: {load.longitude}</div>
+                        <div>Lat: {locationData.latitude}</div>
+                        <div>Lng: {locationData.longitude}</div>
                       </div>
                       <div style={{ marginTop: "8px" }}>
                         <LoadStatusTag status={getLoadStatus()} />
