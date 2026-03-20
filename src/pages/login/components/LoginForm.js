@@ -16,6 +16,7 @@ import {
 } from "@ant-design/icons";
 import { useNavigate, useLocation } from "react-router-dom";
 import { services } from "../../../common/services";
+import { darkTheme } from "../../../common/darkTheme";
 
 const { Title, Text, Link } = Typography;
 
@@ -70,25 +71,26 @@ const LoginForm = () => {
         alignItems: "center",
         justifyContent: "center",
         padding: "20px",
-        background: "#f8f9fa",
+        background: darkTheme.primaryBg,
       }}
     >
       <Card
         style={{
           width: "100%",
           maxWidth: 420,
-          boxShadow: "0 10px 40px rgba(0,0,0,0.1)",
+          boxShadow: "0 10px 40px rgba(0,0,0,0.3)",
           borderRadius: "16px",
-          border: "none",
+          border: `1px solid ${darkTheme.borderColor}`,
+          background: darkTheme.cardBg,
         }}
         bodyStyle={{ padding: "40px 30px" }}
       >
         <div style={{ textAlign: "center", marginBottom: 32 }}>
-          <Title level={2} style={{ margin: 0, fontSize: 32, fontWeight: 600 }}>
-            Welcome Back!
+          <Title level={2} style={{ margin: 0, fontSize: 32, fontWeight: 600, color: darkTheme.primaryText }}>
+            Hoş Geldiniz!
           </Title>
-          <Text style={{ color: "#8c8c8c", fontSize: 16 }}>
-            Log in to start creating stunning videos with ease.
+          <Text style={{ color: darkTheme.secondaryText, fontSize: 16 }}>
+            Sisteme giriş yaparak yönetim paneline erişin.
           </Text>
         </div>
 
@@ -99,26 +101,28 @@ const LoginForm = () => {
           requiredMark={false}
         >
           <Form.Item
-            label="Email"
+            label={<span style={{ color: darkTheme.primaryText }}>E-mail</span>}
             name="email"
             rules={[
-              { required: true, message: "Email gerekli!" },
-              { type: "email", message: "Geçerli bir email adresi girin!" },
+              { required: true, message: "E-mail gerekli!" },
+              { type: "email", message: "Geçerli bir e-mail adresi girin!" },
             ]}
           >
             <Input
-              placeholder="Input your email"
+              placeholder="E-mail adresinizi girin"
               size="large"
               style={{
                 borderRadius: "8px",
-                border: "1px solid #e0e0e0",
+                border: `1px solid ${darkTheme.borderColor}`,
                 boxShadow: "none",
+                background: darkTheme.secondaryBg,
+                color: darkTheme.primaryText,
               }}
             />
           </Form.Item>
 
           <Form.Item
-            label="Password"
+            label={<span style={{ color: darkTheme.primaryText }}>Şifre</span>}
             name="password"
             rules={[
               { required: true, message: "Şifre gerekli!" },
@@ -126,15 +130,17 @@ const LoginForm = () => {
             ]}
           >
             <Input.Password
-              placeholder="Input your company name"
+              placeholder="Şifrenizi girin"
               size="large"
               iconRender={(visible) =>
                 visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />
               }
               style={{
                 borderRadius: "8px",
-                border: "1px solid #e0e0e0",
+                border: `1px solid ${darkTheme.borderColor}`,
                 boxShadow: "none",
+                background: darkTheme.secondaryBg,
+                color: darkTheme.primaryText,
               }}
             />
           </Form.Item>
@@ -148,10 +154,10 @@ const LoginForm = () => {
               }}
             >
               <Form.Item name="remember" valuePropName="checked" noStyle>
-                <Checkbox style={{ color: "#8c8c8c" }}>Remember Me</Checkbox>
+                <Checkbox style={{ color: darkTheme.primaryText }}>Beni Hatırla</Checkbox>
               </Form.Item>
-              <Link href="#" style={{ color: "#000000ff" }}>
-                Forgot Password?
+              <Link href="#" style={{ color: "#667eea" }}>
+                Şifremi Unuttum?
               </Link>
             </div>
           </Form.Item>
@@ -166,18 +172,19 @@ const LoginForm = () => {
                 width: "100%",
                 height: "48px",
                 borderRadius: "8px",
-                background: "#000000ff",
+                background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
                 border: "none",
                 fontSize: "16px",
                 fontWeight: 500,
+                color: "#ffffff",
               }}
             >
-              Login
+              Giriş Yap
             </Button>
           </Form.Item>
 
-          <Divider style={{ color: "#8c8c8c", fontSize: 14 }}>
-            Or continue with
+          <Divider style={{ color: darkTheme.secondaryText, fontSize: 14 }}>
+            ya da devam et
           </Divider>
 
           <Button
@@ -187,9 +194,9 @@ const LoginForm = () => {
               width: "100%",
               height: "48px",
               borderRadius: "8px",
-              border: "1px solid #e0e0e0",
-              background: "white",
-              color: "#333",
+              border: `1px solid ${darkTheme.borderColor}`,
+              background: darkTheme.secondaryBg,
+              color: darkTheme.primaryText,
               fontSize: "16px",
               fontWeight: 500,
               display: "flex",
@@ -197,17 +204,17 @@ const LoginForm = () => {
               justifyContent: "center",
             }}
           >
-            Continue with Google
+            Google ile Devam Et
           </Button>
 
           <div style={{ textAlign: "center", marginTop: 24 }}>
-            <Text style={{ color: "#8c8c8c" }}>
-              Don't have an account?{" "}
+            <Text style={{ color: darkTheme.secondaryText }}>
+              Hesabınız yok mu?{" "}
               <Link
                 href="/register"
-                style={{ color: "#000000ff", fontWeight: 500 }}
+                style={{ color: "#667eea", fontWeight: 500 }}
               >
-                Sign up here
+                Kayıt Ol
               </Link>
             </Text>
           </div>

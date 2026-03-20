@@ -14,6 +14,8 @@ import {
   TeamOutlined,
 } from "@ant-design/icons";
 import { useNavigate, useLocation } from "react-router-dom";
+import tr from "../translations";
+import { darkTheme } from "../darkTheme";
 
 const { Sider } = Layout;
 const { Text } = Typography;
@@ -29,27 +31,27 @@ const SideBar = ({ collapsed, onCollapse }) => {
     {
       key: "/",
       icon: <DashboardOutlined />,
-      label: "Dashboard",
+      label: tr.dashboard,
     },
     {
       key: "/vehicles",
       icon: <CarOutlined />,
-      label: "Vehicles",
+      label: tr.vehicles,
     },
     {
       key: "/drivers",
       icon: <UserOutlined />,
-      label: "Drivers",
+      label: tr.drivers,
     },
     {
       key: "/invoices",
       icon: <FileTextOutlined />,
-      label: "Invoices",
+      label: tr.invoices,
     },
     {
       key: "/loads",
       icon: <TeamOutlined />,
-      label: "Loads",
+      label: tr.loads,
     },
     {
       key: "divider1",
@@ -58,7 +60,7 @@ const SideBar = ({ collapsed, onCollapse }) => {
     {
       key: "logout",
       icon: <LogoutOutlined />,
-      label: "Logout",
+      label: tr.logout,
       danger: true,
     },
   ];
@@ -86,16 +88,16 @@ const SideBar = ({ collapsed, onCollapse }) => {
         bottom: 0,
         height: "100vh",
         zIndex: 1000,
-        background: "#fff",
-        borderRight: "1px solid #f0f0f0",
-        boxShadow: "2px 0 8px rgba(0,0,0,0.06)",
+        background: darkTheme.cardBg,
+        borderRight: `1px solid ${darkTheme.borderColor}`,
+        boxShadow: "2px 0 8px rgba(0,0,0,0.3)",
       }}
     >
       {/* Logo and Brand */}
       <div
         style={{
           padding: collapsed ? "16px 12px" : "20px 24px",
-          borderBottom: "1px solid #f0f0f0",
+          borderBottom: `1px solid ${darkTheme.borderColor}`,
           display: "flex",
           alignItems: "center",
           justifyContent: collapsed ? "center" : "space-between",
@@ -122,8 +124,8 @@ const SideBar = ({ collapsed, onCollapse }) => {
           </div>
           {!collapsed && (
             <div>
-              <Text strong style={{ fontSize: "16px", color: "#1a1a1a" }}>
-                AKNA Transport
+              <Text strong style={{ fontSize: "16px", color: darkTheme.primaryText }}>
+                {tr.aknaTransport}
               </Text>
             </div>
           )}
@@ -148,8 +150,8 @@ const SideBar = ({ collapsed, onCollapse }) => {
         <div
           style={{
             padding: "20px 24px",
-            borderBottom: "1px solid #f0f0f0",
-            background: "#fafafa",
+            borderBottom: `1px solid ${darkTheme.borderColor}`,
+            background: darkTheme.secondaryBg,
           }}
         >
           <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
@@ -173,6 +175,7 @@ const SideBar = ({ collapsed, onCollapse }) => {
                   whiteSpace: "nowrap",
                   overflow: "hidden",
                   textOverflow: "ellipsis",
+                  color: darkTheme.primaryText,
                 }}
               >
                 {userInfo.name && userInfo.surname
@@ -181,7 +184,7 @@ const SideBar = ({ collapsed, onCollapse }) => {
               </Text>
               <Text
                 style={{
-                  color: "#8c8c8c",
+                  color: darkTheme.secondaryText,
                   fontSize: "12px",
                   display: "block",
                   whiteSpace: "nowrap",

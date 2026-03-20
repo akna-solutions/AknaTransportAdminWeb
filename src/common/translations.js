@@ -1,0 +1,97 @@
+// Turkish Localization
+const tr = {
+  // Sidebar
+  dashboard: "Kontrol Paneli",
+  vehicles: "Araçlar",
+  drivers: "Sürücüler",
+  invoices: "Faturalar",
+  loads: "Yükler",
+  logout: "Çıkış Yap",
+  aknaTransport: "AKNA Taşıma",
+
+  // Dashboard Header
+  goodMorning: "Günaydın",
+  goodAfternoon: "İyi öğleler",
+  goodEvening: "İyi akşamlar",
+  hereIsWhatsHappening: "İşte bugün filo hakkında olan gelişmeler",
+  quickAdd: "Hızlı Ekle",
+  allSystemsOperational: "Tüm sistemler normal çalışıyor",
+  activeRoutes: "aktif rota",
+  pendingApprovals: "bekleyen onay",
+
+  // Dashboard Stats
+  totalVehicles: "Toplam Araçlar",
+  activeDrivers: "Aktif Sürücüler",
+  onTimeDeliveries: "Zamanında Teslimatlar",
+  vehicleUtilization: "Araç Kullanım Oranı",
+  averageResponseTime: "Ortalama Yanıt Süresi",
+  currentPerformance: "Güncel Performans",
+
+  // Vehicles List
+  recentVehicles: "Son Araçlar",
+  viewAll: "Tümünü Göster",
+  vehicle: "Araç",
+  type: "Tür",
+  status: "Durum",
+  capacity: "Kapasite",
+  location: "Konum",
+  actions: "İşlemler",
+  truck: "Kamyon",
+  van: "Minibüs",
+  container: "Konteyner",
+  trailer: "Römorka",
+  tanker: "Tankeri",
+  available: "Kullanılabilir",
+  inTransit: "Yolda",
+  maintenance: "Bakım",
+  outOfService: "Hizmette Değil",
+  inactive: "Pasif",
+  located: "Konumlandı",
+  unknown: "Bilinmiyor",
+  viewDetails: "Detayları Görüntüle",
+  editVehicle: "Aracı Düzenle",
+  deleteVehicle: "Aracı Sil",
+  vehiclesOf: "araç",
+  deleteVehicleConfirm: "Bu aracı silmek istediğinizden emin misiniz?",
+  yesDelete: "Evet, Sil",
+  cancel: "İptal",
+  vehicleDeletedSuccess: "Araç başarıyla silindi",
+  failedLoadVehicles: "Araçlar yüklenemedi",
+  failedDeleteVehicle: "Araç silinemiyor",
+
+  // Users List
+  recentUsers: "Son Kullanıcılar",
+  user: "Kullanıcı",
+  contact: "İletişim",
+  gender: "Cinsiyet",
+  male: "Erkek",
+  female: "Kadın",
+  driver: "Sürücü",
+  admin: "Yönetici",
+  superAdmin: "Süper Yönetici",
+  verified: "Doğrulanmış",
+  pending: "Bekleniyor",
+  viewProfile: "Profili Görüntüle",
+  editUser: "Kullanıcıyı Düzenle",
+  deleteUser: "Kullanıcıyı Sil",
+  usersOf: "kullanıcı",
+  deleteUserConfirm: "Bu kullanıcıyı silmek istediğinizden emin misiniz?",
+  userDeletedSuccess: "Kullanıcı başarıyla silindi",
+  failedLoadUsers: "Kullanıcılar yüklenemedi",
+  failedDeleteUser: "Kullanıcı silinemiyor",
+
+  // Recent Activities
+  recentActivities: "Son Aktiviteler",
+  last24Hours: "Son 24 saat",
+  vehicleAdded: "Araç Eklendi",
+  driverRegistered: "Sürücü Kaydedildi",
+  bookingConfirmed: "Rezervasyon Onaylandı",
+  maintenanceRequired: "Bakım Gerekli",
+  invoiceGenerated: "Fatura Oluşturuldu",
+  driverUpdated: "Sürücü Güncellendi",
+
+  // Common
+  na: "Yok",
+};
+
+export default tr;
